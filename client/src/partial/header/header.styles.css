@@ -1,0 +1,42 @@
+.header {
+    background-color: #2600d9;
+    color: #ffffff;
+    height: 4rem;
+    margin: 0;
+    line-height: 3.5rem;
+}
+.home_icon {
+    color: #ffffff!important;
+}
+    .home_icon:hover {
+        opacity: 0.3;
+        cursor: pointer;
+    }
+
+.home_icon {
+    transition: opacity 1.5s;
+    -webkit-transition: opacity 1.5s;
+    opacity: 1;
+}
+.login_icon:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.login_icon {
+    transition: opacity 1.5s;
+    -webkit-transition: opacity 1.5s;
+    opacity: 1;
+}
+
+.login_span {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+    .login_span:hover {
+        color: #ffffff;
+        text-decoration: none;
+        text-decoration-style: none;
+        text-decoration-line: none;
+    }
