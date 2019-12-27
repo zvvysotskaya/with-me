@@ -2,8 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\client",
-    "\\client\\src\\pages\\home-page"
+    "\\client\\src",
+    "\\client\\src\\components",
+    "\\client\\src\\components\\text-validator",
+    "\\client\\src\\partial\\header",
+    "\\node-controllers"
   ],
-  "SelectedNode": "\\client\\package.json",
+  "SelectedNode": "\\client\\src\\components\\button-custom",
   "PreviewInSolutionExplorer": false
 }

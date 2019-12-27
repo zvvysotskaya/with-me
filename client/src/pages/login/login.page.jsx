@@ -1,13 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-const LoginPage = () => {
+import CustomButton from '../../components/button-custom/button-custom.component'
+
+const LoginPage = ({ history }) => {
     function handleSubmit(e) {
         e.preventDefault()
         alert('Hello!!!')
     }
     return (
         <div>
-            <h1>Login Page</h1>
+            
             <div className='container'>
                 <div className='row justify-content-center'>
                     <div className='col-md-5 col-sm-8 justify-content-center border rounded mt-md-5 mt-0 mb-md-5 p-5'>
@@ -38,12 +41,16 @@ const LoginPage = () => {
                                 />
                             </div>
                             <button type="submit" className="btn btn-lg btn-danger">Login</button>&nbsp;
-                        <button type='submit'  className="btn btn-lg btn-danger">Reset</button>
+                        <button type='submit' className="btn btn-lg btn-danger">Reset</button>
                         </form>
+                        <p> do not have an account?</p>
+                        <CustomButton blueBtn onClick={()=>history.push('/sign-up-page')}>Sign Up</CustomButton>
+
                     </div>
                 </div>
-            </div>);
+            </div>
+            
         </div>
-    )
+    );
 }
-export default LoginPage;
+export default withRouter(LoginPage);

@@ -4,16 +4,12 @@ const helmet = require('helmet');
 const path = require('path');
 //const sanitizeHTML = require('sanitize-html')
 const compression = require('compression')
-
-
 const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('client/public'));
-
-
 
 app.use(compression())
 
@@ -32,5 +28,5 @@ if (process.env.NODE_ENV != 'production') {
     require('dotenv').config();
 };
 
-const port = process.env.PORT || 5000
-app.listen(port, error => { if (error) { throw error; } else {console.log('Server running on port '+ port)}})
+module.exports = app
+

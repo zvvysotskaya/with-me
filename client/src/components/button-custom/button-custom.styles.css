@@ -1,0 +1,31 @@
+.customBtn {
+    background-color: #ffffff;
+    color: darkgray;
+    border: 1px solid black;
+    padding: 10px 40px 10px 40px;
+    font-size: 15px;
+}
+
+.blueBtn {
+    background-color: #6600ff;
+    color: #ffffff;
+    border: 1px solid #6600ff;
+    padding: 10px 40px 10px 40px;
+    font-size: 15px;
+}
+
+.redBtn {
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+    padding: 10px 40px 10px 40px;
+    font-size: 15px;
+}
+
+.yellowBtn {
+    background-color: yellow;
+    color: black;
+    border: 1px solid yellow;
+    padding: 10px 40px 10px 40px;
+    font-size: 15px;
+}

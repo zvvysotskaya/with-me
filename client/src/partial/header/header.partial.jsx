@@ -16,7 +16,7 @@ const Header = () => {
                     </div>
                     <div className='col-10 d-flex justify-content-end '>
                         <Link to='login-page' className='login login_icon mt-3 d-flex justify-content-between'>
-                            <LoginIcon /><span className=' login_span text-decoration-none text-white'>Login</span>
+                            <LoginIcon /><span className=' login_span text-decoration-none text-white'>Login / Sign Up</span>
                         </Link>
                     </div>
                 </div>
