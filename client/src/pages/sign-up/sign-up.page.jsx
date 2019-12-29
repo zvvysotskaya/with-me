@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import validator from 'validator'
+import axios from 'axios';
 
 import './sign-up.styles.css'
 
 
-const SignUp = () => {
+const SignUp = ({ history}) => {
     const [val, setVal] = useState({
         username: '',
         email: '',
@@ -14,9 +16,9 @@ const SignUp = () => {
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
-            username: val.username,
+            username: val.username.trim().toLowerCase(),
             password: val.password,
-            email: val.email,
+            email: val.email.trim().toLowerCase(),
             confirmpassword: val.confirmpassword
         }
         if (!validator.isEmail(data.email)) {
@@ -25,10 +27,31 @@ const SignUp = () => {
         }
         if (validator.isEmpty(data.username) || validator.isEmpty(data.password) || validator.isEmpty(data.email)) {
             alert('The field cannot be empty')
+            return
         }
         if (!validator.equals(data.password, data.confirmpassword)) {
             alert('Pasword does not match')
+            return
         }
+        if (data.password.length > 0 && data.password.length < 5) {
+            alert('The password length should be more than 5 characters')
+            return
+        }
+        if (!validator.isAlphanumeric(data.username)) {
+            alert('Please enter letters or numbers')
+            return
+        }
+        if (data) {
+            fetch('/create-user', {
+                method: 'POST',
+                headers: { 'Content-type': 'Application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(res=>(console.log(res)))
+                .catch(err => (console.log(err)))
+        }
+        history.push('/')
     }
 
     return (
@@ -54,7 +77,7 @@ const SignUp = () => {
                         <div className='form-group'>
                             <label>Email:</label>
                             <input
-                                type='text'
+                                type='email'
                                 className="form-control email"
                                 name='email'
                                 placeholder='Email'
@@ -66,7 +89,7 @@ const SignUp = () => {
                         <div className='form-group'>
                             <label>Password:</label>
                             <input
-                                type='text'
+                                type='password'
                                 className="form-control"
                                 name='password'
                                 placeholder='Password'
@@ -77,7 +100,7 @@ const SignUp = () => {
                         <div className='form-group'>
                             <label>Confirm Password:</label>
                             <input
-                                type='text'
+                                type='password'
                                 className="form-control"
                                 name='confirmpassword'
                                 placeholder='confirmpassword'
@@ -92,4 +115,4 @@ const SignUp = () => {
         </div>
     );
 }
-export default SignUp;
+export default withRouter(SignUp);
