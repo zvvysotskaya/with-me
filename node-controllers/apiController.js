@@ -1,4 +1,4 @@
-
+const bcrypt = require('bcryptjs')
 require('dotenv').config();
 const mongodb = require('mongodb');
 let db;
@@ -15,19 +15,25 @@ mongodb.connect(connectionStrings, { useNewUrlParser: true, useUnifiedTopology: 
 module.exports = function (app) {
     app.post('/create-user', function (req, res) {
     //    let safeText = sanitizeHTML(req.body.item, { allowedTags: [], allowedAttributes: {} })
+        //hash user password
+        let salt = bcrypt.genSaltSync(10)
+        let password = bcrypt.hashSync(req.body.password, salt)
+
         let data = {
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: password
         }
        // console.log(data)
+        
+
         db.collection('users').insertOne(data)
     })
     app.post('/login-user', function (req, res) {
        
             let password = req.body.password        
-            db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
-                if (attemptedUser && password == attemptedUser.password) {
+        db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
+            if (attemptedUser && bcrypt.compareSync(password, attemptedUser.password)) {
                     console.log('Congrats!')
                     res.send('Congrats!')
                  //   res.redirect('/sign-up-page')

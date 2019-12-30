@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import validator from 'validator'
-import axios from 'axios';
+import validator from 'validator';
 
 import './sign-up.styles.css'
 
@@ -35,6 +34,10 @@ const SignUp = ({ history}) => {
         }
         if (data.password.length > 0 && data.password.length < 5) {
             alert('The password length should be more than 5 characters')
+            return
+        }
+        if (data.password.length > 0 && data.password.length > 50) {
+            alert('The password length cannot exceed 50 characters')
             return
         }
         if (!validator.isAlphanumeric(data.username)) {
