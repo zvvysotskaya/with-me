@@ -1,12 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect} from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
 import { ReactComponent as HomeIcon } from '../../img/home3.svg';
-import { ReactComponent as LoginIcon } from '../../img/users.svg';
+import HeaderLogin from '../../components/header-login/header-login.component';
+import HeaderLogout from '../../components/header-logout/header-logout.component';
+import Avatar from '../../components/avatar/avatar.component'
 
 import './header.styles.css'
 
 
-const Header = () => {
+const Header = ({ history}) => {
+    const [mess, setMess] = useState({
+        message: ''
+    })
+    useEffect(() => {
+        fetch('/bbb')
+            .then(res => res.text())
+            .then(message => setMess({ message: message }))
+            .then(message => console.log(message))
+            .catch(err => (console.log(err)))
+    }, [])
+    
     return (
         <div className='header '>
             <div className='container'>
@@ -15,13 +29,15 @@ const Header = () => {
                         <Link to='/' className='home_icon'><HomeIcon /></Link>
                     </div>
                     <div className='col-10 d-flex justify-content-end '>
-                        <Link to='login-page' className='login login_icon mt-3 d-flex justify-content-between'>
-                            <LoginIcon /><span className=' login_span text-decoration-none text-white'>Login / Sign Up</span>
-                        </Link>
+
+                        {
+                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Avatar />&nbsp; &nbsp;&nbsp;<HeaderLogout /></div> : <HeaderLogin />
+                        }
+                       
                     </div>
                 </div>
             </div>
         </div>
     )
 }
-export default Header;
+export default withRouter(Header);

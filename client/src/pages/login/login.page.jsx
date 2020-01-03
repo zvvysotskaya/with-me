@@ -13,7 +13,7 @@ const LoginPage = ({ history }) => {
     })
     function redir() {
         if (mess.message === 'Congrats!') {
-             window.location='/'
+            window.location ='/home-dashboard'
         } 
     }
     

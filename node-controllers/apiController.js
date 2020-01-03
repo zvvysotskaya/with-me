@@ -1,5 +1,8 @@
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
+const session = require('express-session')
+const md5 = require('md5');
+
 const mongodb = require('mongodb');
 let db;
 let connectionStrings = process.env.REACT_APP_DB_URL
@@ -34,6 +37,11 @@ module.exports = function (app) {
             let password = req.body.password        
         db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
             if (attemptedUser && bcrypt.compareSync(password, attemptedUser.password)) {
+                req.session.user = { email: req.body.email, avatar: `https://gravatar.com/avatar/${req.body.email}?s=128`, password: req.body.password }
+               // req.session.user.save()  
+                if (req.session.user) {
+                    console.log('Hello from Session ' + req.session.id + ' ' + req.session.user)
+                }
                     console.log('Congrats!')
                     res.send('Congrats!')
                  //   res.redirect('/sign-up-page')
@@ -42,9 +50,30 @@ module.exports = function (app) {
                     res.send('Invalid pasword / username!')
                 }
             })
-        })
+    })
+    app.get('/logout', function (req, res) {
+        req.session.destroy(function () {
+            res.send('You are now loggedout.')
+        });
         
-   
+    })
+    app.get('/aaa', function (req, res) {//this is to take something from session
+        if (req.session.user) {
+            res.send(req.session.id + ' user email ' + req.session.user.email + ' password: ' + req.session.user.password + ' avatar: ' + req.session.user.avatar)
+            console.log()
+        }
+    }) 
+    app.get('/avat', function (req, res) {
+        if (req.session.user) {
+            res.send(req.session.user.avatar)
+        }
+    })
+    app.get('/bbb', function (req, res) {
+        if (req.session.user) {
+            res.send('hello, there')
+        }
+    })
+    
 
 
 }
