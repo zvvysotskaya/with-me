@@ -37,10 +37,12 @@ module.exports = function (app) {
             let password = req.body.password        
         db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
             if (attemptedUser && bcrypt.compareSync(password, attemptedUser.password)) {
-                req.session.user = { email: req.body.email, avatar: `https://gravatar.com/avatar/${req.body.email}?s=128`, password: req.body.password }
-               // req.session.user.save()  
+                req.session.user = { email: req.body.email, avatar: `https://gravatar.com/avatar/${md5(req.body.email)}?s=128`, password: req.body.password }
+                // req.session.user.save()  
+                
                 if (req.session.user) {
                     console.log('Hello from Session ' + req.session.id + ' ' + req.session.user)
+                    
                 }
                     console.log('Congrats!')
                     res.send('Congrats!')
@@ -52,7 +54,7 @@ module.exports = function (app) {
             })
     })
     app.get('/logout', function (req, res) {
-        req.session.destroy(function () {
+        req.session.destroy(function () {            
             res.send('You are now loggedout.')
         });
         

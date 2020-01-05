@@ -1,7 +1,9 @@
 import React, { useState} from 'react';
 import { withRouter } from 'react-router-dom';
 
-import CustomButton from '../../components/button-custom/button-custom.component'
+
+import CustomButton from '../../components/button-custom/button-custom.component';
+import './login.styles.css';
 
 const LoginPage = ({ history }) => {
     const [val, setVal] = useState({
@@ -13,6 +15,7 @@ const LoginPage = ({ history }) => {
     })
     function redir() {
         if (mess.message === 'Congrats!') {
+            localStorage.setItem('user', JSON.stringify(mess.message))
             window.location ='/home-dashboard'
         } 
     }
@@ -42,7 +45,10 @@ const LoginPage = ({ history }) => {
                 <div className='row justify-content-center'>
                     <div className='col-md-5 col-sm-8 justify-content-center border rounded mt-md-5 mt-0 mb-md-5 p-5'>
                         <h3 className='text-center mt-3 mb-3'>Login</h3>
-                        {mess.message}
+                        <div className='message-background'>
+                            <p className=''> {mess.message}</p>
+                        </div>
+                        
                         <p id='validationForm'></p>
                         <form onSubmit={handleSubmit} method='POST'>
                             <div className='form-group'>
@@ -71,7 +77,7 @@ const LoginPage = ({ history }) => {
                             <button type="submit" className="btn btn-lg btn-danger">Login</button>&nbsp;
                         <button type='submit' onClick={redir()} className="btn btn-lg btn-danger">Reset</button>
                         </form>
-                        <p> do not have an account?</p>
+                        <p className='mt-2'> do not have an account?</p>
                         <CustomButton blueBtn onClick={()=>history.push('/sign-up-page')}>Sign Up</CustomButton>
 
                     </div>

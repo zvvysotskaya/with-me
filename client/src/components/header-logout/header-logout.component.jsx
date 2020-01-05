@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { ReactComponent as LoginIcon } from '../../img/users.svg';
 
 const HeaderLogout = () => {
-    const [mess, setMess] = useState({
-        message: ''
-    })
+    
     function logout(e) {
         e.preventDefault()
         fetch('/logout')
-            .then(res => res.text())
-            .then(message => setMess({ message: message }))
+            .then(localStorage.removeItem('user'))            
             .then(window.location='/')
             .catch(err => (console.log(err)))
+            
     }
     return (
         <div>
