@@ -1,54 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
 
 const CreatPostForm = () => {
     // window.location.reload();
-    useEffect(() => {
-        function one() {
-            return new Promise(function (resolve, reject) {
-                console.log('Start')
-                resolve()
-            })
-        }
-        function windowReload() {
-            return new Promise(function (resolve, reject) {
-                window.location.reload()
-                resolve()
-            })
-        }
-        function three() {
-            return new Promise(function (resolve, reject) {
-                console.log('Finished')
-                resolve()
-            })
-        }
-        async function runAction() {
-            try {
-                await one()
-                await windowReload()
-                await three()
-            } catch (err) {
-                console.log(err)
-            }
-        }
-   // runAction()
-    }, [])
+    const [val, setVal] = useState({
+        title: '',
+        body: ''
+    })
+    const [mess, setMess] = useState({
+        msg: ''
+    })
+    
     
     function handleSubmit(e) {
         e.preventDefault()
         alert('Hello!!')
+        let data = {
+            title: val.title,
+            body: val.body
+        }
+        if (data) {
+            fetch('post-post', {
+                method: 'POST',
+                headers: { 'Content-type': 'Application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.text())
+                .then(message => setMess({ msg: message }))                
+                .catch(err => (console.log(err)))
+        }
     }
     return (
         <div className='container'>
             <div className='row justify-content-center'>
                 <div className='col-10 border rounded mt-3'>
+                    {mess.msg}
                     <form onSubmit={handleSubmit} method='POST'>
+                        
                         <div className='form-group'>
-                            <input />
+                            <input
+                                type='text'
+                                className='form-control'
+                                name='title'
+                                value={val.title}
+                                onChange={(e) => setVal({...val, title: e.target.value})}
+                            />
                         </div>
                         <div className='form-group'>
-                            <textarea />
+                            <textarea
+                                className='form-control'
+                                type='text'
+                                name='body'
+                                value={val.body}
+                                onChange={(e) => setVal({...val, body: e.target.value})}
+                            />
                         </div>
                         <CustomButton blueBtn type='submit'>Create</CustomButton>
                     </form>

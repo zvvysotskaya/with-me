@@ -4,6 +4,7 @@ const session = require('express-session')
 const md5 = require('md5');
 
 const mongodb = require('mongodb');
+const ObjectID = require('mongodb').ObjectID;
 let db;
 let connectionStrings = process.env.REACT_APP_DB_URL
 mongodb.connect(connectionStrings, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
@@ -37,7 +38,7 @@ module.exports = function (app) {
             let password = req.body.password        
         db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
             if (attemptedUser && bcrypt.compareSync(password, attemptedUser.password)) {
-                req.session.user = { email: req.body.email, avatar: `https://gravatar.com/avatar/${md5(req.body.email)}?s=128`, password: req.body.password }
+                req.session.user = { email: req.body.email, avatar: `https://gravatar.com/avatar/${md5(req.body.email)}?s=128`, password: req.body.password, _id: ObjectID(attemptedUser._id) }
                 // req.session.user.save()  
                 
                 if (req.session.user) {
@@ -48,8 +49,8 @@ module.exports = function (app) {
                     res.send('Congrats!')
                  //   res.redirect('/sign-up-page')
                 } else {
-                    console.log('Invalid pasword / username!')
-                    res.send('Invalid pasword / username!')
+                    console.log('Invalid pasword / email!')
+                    res.send('Invalid pasword / email!')
                 }
             })
     })
@@ -61,7 +62,7 @@ module.exports = function (app) {
     })
     app.get('/aaa', function (req, res) {//this is to take something from session
         if (req.session.user) {
-            res.send(req.session.id + ' user email ' + req.session.user.email + ' password: ' + req.session.user.password + ' avatar: ' + req.session.user.avatar)
+            res.send(req.session.id + ' user email ' + req.session.user.email + ' password: ' + req.session.user.password + ' avatar: ' + req.session.user.avatar + ' _id: ' + req.session.user._id)
             console.log()
         }
     }) 

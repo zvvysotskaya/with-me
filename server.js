@@ -30,8 +30,10 @@ app.use(sessionOptions)
 
 app.use(compression())
 
-const apiController = require('./node-controllers/apiController')
-apiController(app)
+const userController = require('./node-controllers/userController')
+userController(app)
+const postController = require('./node-controllers/postController')
+postController(app)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'client/build')));
