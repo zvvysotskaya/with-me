@@ -15,7 +15,7 @@ const Avatar = () => {
     }, [])
     return (
         <div>
-            <div className=''>
+            <div>
                <img src={pic.image} className='img-fluid img_avatar' />
             </div>
 

@@ -137,14 +137,20 @@ module.exports = function (app) {
                     body: 1,
                     dateCreated: 1,
                    // username: 1,
+                    email: 1,
                     authorId:'$author',
-                    author: { $arrayElemAt: ['$authorDocument', 0] }
+                    author: { $arrayElemAt: ['$authorDocument', 0] },
+                  
                 }}
         ]
         db.collection('posts')
             .aggregate(myAggr)
             .toArray()
-            .then(function (result) { res.send(result) })
+            .then(function (result) {
+                if (result) {
+                    res.send(result)
+                }
+            })
             .catch(err=>console.log(err))
     })
     

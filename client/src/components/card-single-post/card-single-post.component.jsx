@@ -1,4 +1,8 @@
 import React from 'react';
+import './card-single-post.styles.css';
+
+
+const md5 = require('md5');
 
 const CardSinglePost = ({ post }) => {
    
@@ -6,14 +10,15 @@ const CardSinglePost = ({ post }) => {
         <div className='container'>
             <div className='row ' >
                 <div className='col'>
-                    <h1>Single Post Page</h1><h1>{post.title}</h1>
+                    <h1>Single Post Page</h1>
+                    <h2 className='my-4 '>{post.title}</h2>
                     <div>
-                        <img src='' alt='avatar picture' className='img-fluid avatar_tiny'/>
+                        <img src={`https://gravatar.com/avatar/${md5(post.author.email)}?s=128`} alt='avatar picture' className='img-fluid avatar_tiny mb-4'/>
                     </div>
-                    <p>Posted by {post.author.username} on {new Date(post.dateCreated).getMonth() + 1} / {new Date(post.dateCreated).getDate()} / {new Date(post.dateCreated).getFullYear()}</p>
+                    <p>Posted by <a href='#'>{post.author.username}</a> on {new Date(post.dateCreated).getMonth() + 1} / {new Date(post.dateCreated).getDate()} / {new Date(post.dateCreated).getFullYear()}</p>
                     <div>
                         {post.body}<br />
-                        {post.authorId}
+                        
                     </div>
 
                 </div>
