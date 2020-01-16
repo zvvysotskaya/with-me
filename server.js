@@ -49,6 +49,9 @@ if (process.env.NODE_ENV != 'production') {
     })
     require('dotenv').config();
 };
+app.all('*', (req, res) => {
+    res.send('<h1>Woops, we cannot find that page</h1>')
+})
 
 module.exports = app
 

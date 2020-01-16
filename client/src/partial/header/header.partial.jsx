@@ -29,11 +29,9 @@ const Header = ({ history}) => {
                         <Link to='/' className='home_icon'><HomeIcon /></Link>
                     </div>
                     <div className='col-10 d-flex justify-content-end '>
-
                         {
-                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Avatar />&nbsp; &nbsp;&nbsp;<HeaderLogout /></div> : <HeaderLogin />
-                        }
-                       
+                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to='/profile/:'><Avatar /></Link>&nbsp; &nbsp;&nbsp;<HeaderLogout /></div> : <HeaderLogin />
+                        }                       
                     </div>
                 </div>
             </div>

@@ -15,11 +15,17 @@ const HomeDashboardPage = ({ history }) => {
             .catch(err => (console.log(err)))
     }, [])
     
-    return (<div>
-        <h1>Home dashboard</h1>
-        <CustomButton onClick={()=> history.push('/create-post-page')}>Create a New Post</CustomButton>
-        {mess.message}
-       
-    </div>)
+    return (
+        <div className='container'>
+            <div className='row justify-content-center'>
+                <div className='col'>
+                    <h1>Home dashboard</h1>
+                    <h1>Hello {mess.message}</h1>
+                    <CustomButton onClick={() => history.push('/create-post-page')}>Create a New Post</CustomButton>
+                    
+                </div>                
+            </div>
+        </div>
+    )
 }
 export default withRouter(HomeDashboardPage);
