@@ -136,7 +136,7 @@ module.exports = function (app) {
                     title: 1,
                     body: 1,
                     dateCreated: 1,
-                   // username: 1,
+                    username: 1,
                     email: 1,
                     authorId:'$author',
                     author: { $arrayElemAt: ['$authorDocument', 0] },
