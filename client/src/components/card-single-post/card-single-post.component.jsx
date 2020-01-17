@@ -12,10 +12,13 @@ const CardSinglePost = ({ post }) => {
                 <div className='col'>
                     <h1>Single Post Page</h1>
                     <h2 className='my-4 '>{post.title}</h2>
-                    <div>
-                        <img src={`https://gravatar.com/avatar/${md5(post.author.email)}?s=128`} alt='avatar picture' className='img-fluid avatar_tiny mb-4'/>
+                    <div className='d-flex'>
+                        <img src={`https://gravatar.com/avatar/${md5(post.author.email)}?s=128`} alt='avatar picture' className='img-fluid avatar_tiny mb-4' />&nbsp;&nbsp;&nbsp;
+                        <p className='mt-3'>Posted by <a href={`/profile/${post.author.username}`}>{post.author.username}</a>&nbsp;
+                            on {new Date(post.dateCreated).getMonth() + 1} / {new Date(post.dateCreated).getDate()} / {new Date(post.dateCreated).getFullYear()}
+                        </p>
                     </div>
-                    <p>Posted by <a href={`/profile/${post.author.username}`}>{post.author.username}</a> on {new Date(post.dateCreated).getMonth() + 1} / {new Date(post.dateCreated).getDate()} / {new Date(post.dateCreated).getFullYear()}</p>
+                    
                     <div>
                         {post.body}<br />
                         
