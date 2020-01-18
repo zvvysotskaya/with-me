@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 import {ReactComponent as PencilIcon} from '../../img/pencil.svg'
 
-const ButtonEdit = () => {
+const ButtonEdit = ({post}) => {
 
     return (
         <div>
-            <Link to=''><PencilIcon/></Link>
+            <a href={`/post/${post._id}/edit`}><PencilIcon/></a>
         </div>
         )
 }
-export default ButtonEdit;
+export default ButtonEdit

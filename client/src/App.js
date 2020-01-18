@@ -27,7 +27,7 @@ function App() {
               <Route path='/singlePost/:id' component={SinglePostScreenPage} />
               <Route path='/profile/:username' component={ProfilePage} />
               <Route exact path='/all-posts-page' component={AllPostsPage} />
-              <Route path='/post/:id/edit' component={EditPostPage}/>
+              <PrivateRoute path='/post/:id/edit' component={EditPostPage}/>
           </Switch>
     </div>
   );

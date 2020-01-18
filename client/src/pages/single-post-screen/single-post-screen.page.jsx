@@ -13,16 +13,18 @@ const SinglePostScreenPage = ({ post, ...props }) => {
             .catch((error) => (console.log(error)));
     }, []
     )
+    let filtered = val.filter((el) => el._id == posts)
     return (
         <div>
             <div className='container'>
                 <div className='row '>
                     <div className='col my-3 d-flex justify-content-end'>
-                        <ButtonEdit />&nbsp;&nbsp;&nbsp;&nbsp;<ButtonDelete/>
+                        {filtered.map((post) => (<ButtonEdit key={post._id} post={post} />))}&nbsp;&nbsp;&nbsp;&nbsp;
+                        {filtered.map((post) => (< ButtonDelete key={post} post={post}/>))}
                     </div>
                 </div>
             </div>
-            {val.filter((el) => el._id == posts).map(post => (<CardSinglePost key={post._id} post={post}/>)) }
+            {filtered.map(post => (<CardSinglePost key={post._id} post={post}/>)) }
         </div>)
 }
 export default SinglePostScreenPage
