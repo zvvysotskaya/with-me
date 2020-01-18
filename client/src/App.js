@@ -12,6 +12,7 @@ import PrivateRoute from './components/private-route/private-route.component';
 import SinglePostScreenPage from './pages/single-post-screen/single-post-screen.page'
 import ProfilePage from './pages/profile/profile.page';
 import AllPostsPage from './pages/all-posts/all-posts.page';
+import EditPostPage from './pages/edit-post/edit-post.page';
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
               <PrivateRoute exact path='/create-post-page' component={CreatePostPage} />
               <Route path='/singlePost/:id' component={SinglePostScreenPage} />
               <Route path='/profile/:username' component={ProfilePage} />
-              <Route path='/all-posts-page' component={AllPostsPage} />
+              <Route exact path='/all-posts-page' component={AllPostsPage} />
+              <Route path='/post/:id/edit' component={EditPostPage}/>
           </Switch>
     </div>
   );

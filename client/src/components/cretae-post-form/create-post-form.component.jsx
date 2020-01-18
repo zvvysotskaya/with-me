@@ -34,11 +34,11 @@ const CreatPostForm = () => {
     return (
         <div className='container'>
             <div className='row justify-content-center'>
-                <div className='col-10 border rounded mt-3'>
+                <div className='col-10 border rounded my-3'>
                     {mess.msg}
                     <form onSubmit={handleSubmit} method='POST'>
-                        
                         <div className='form-group'>
+                            <label for="title">Title:</label>
                             <input
                                 type='text'
                                 className='form-control'
@@ -48,6 +48,7 @@ const CreatPostForm = () => {
                             />
                         </div>
                         <div className='form-group'>
+                            <label for="body">Post Content:</label>
                             <textarea
                                 className='form-control'
                                 type='text'
@@ -56,7 +57,9 @@ const CreatPostForm = () => {
                                 onChange={(e) => setVal({...val, body: e.target.value})}
                             />
                         </div>
-                        <CustomButton blueBtn type='submit'>Create</CustomButton>
+                        <div className='form-group'>
+                            <CustomButton blueBtn type='submit'>Create</CustomButton>
+                        </div>
                     </form>
                 </div>
             </div>
