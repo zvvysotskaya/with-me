@@ -13,6 +13,7 @@ import SinglePostScreenPage from './pages/single-post-screen/single-post-screen.
 import ProfilePage from './pages/profile/profile.page';
 import AllPostsPage from './pages/all-posts/all-posts.page';
 import EditPostPage from './pages/edit-post/edit-post.page';
+import SearchPage from './pages/search/search.page';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
               <Route path='/profile/:username' component={ProfilePage} />
               <Route exact path='/all-posts-page' component={AllPostsPage} />
               <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
+              <Route exact path='/search-page' component={SearchPage} />
            
           </Switch>
     </div>

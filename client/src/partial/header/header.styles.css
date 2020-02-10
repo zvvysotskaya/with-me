@@ -40,3 +40,14 @@
         text-decoration-style: none;
         text-decoration-line: none;
     }
+.search_icon {
+    color: #ffffff !important;
+    transition: opacity 1.5s;
+    -webkit-transition: opacity 1.5s;
+    opacity: 1;
+}
+
+    .search_icon:hover {
+        opacity: 0.3;
+        cursor: pointer;
+    }

@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import { ReactComponent as HomeIcon } from '../../img/home3.svg';
+import { ReactComponent as SearchIcon } from '../../img/search.svg';
 import HeaderLogin from '../../components/header-login/header-login.component';
 import HeaderLogout from '../../components/header-logout/header-logout.component';
 import Avatar from '../../components/avatar/avatar.component'
@@ -20,6 +21,10 @@ const Header = ({ history}) => {
             .then(message => console.log(message))
             .catch(err => (console.log(err)))
     }, [])
+    function search(e) {
+        e.preventDefault()
+        setTimeout(()=>history.push('/search-page'),100)
+    }
     
     return (
         <div className='header '>
@@ -29,8 +34,12 @@ const Header = ({ history}) => {
                         <Link to='/' className='home_icon'><HomeIcon /></Link>
                     </div>
                     <div className='col-10 d-flex justify-content-end '>
+                        <div className='search_icon'>
+                            <SearchIcon onClick={search}/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                        </div>
                         {
-                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to='/profile/:'><Avatar /></Link>&nbsp; &nbsp;&nbsp;<HeaderLogout /></div> : <HeaderLogin />
+                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to='/profile/:'><Avatar /></Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<HeaderLogout /></div> : <HeaderLogin />
                         }                       
                     </div>
                 </div>
