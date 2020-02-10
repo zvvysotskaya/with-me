@@ -9,7 +9,7 @@ const CustomButton = ({ children,blueBtn, redBtn, yellowBtn,...otherProps}) => {
             customBtn
         ${blueBtn ? 'blueBtn' : ''}
         ${redBtn ? 'redBtn' : ''}
-        ${yellowBtn ? 'yelloeBtn' : ''}
+        ${yellowBtn ? 'yellowBtn' : ''}
         `}
             {...otherProps}
         >

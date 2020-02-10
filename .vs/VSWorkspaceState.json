@@ -4,8 +4,12 @@
     "\\client",
     "\\client\\src",
     "\\client\\src\\components",
+    "\\client\\src\\components\\card-all-posts",
+    "\\client\\src\\pages",
+    "\\client\\src\\pages\\delete-post",
+    "\\client\\src\\pages\\edit-post",
     "\\node-controllers"
   ],
-  "SelectedNode": "\\client\\src\\components\\button-custom",
+  "SelectedNode": "\\client\\src\\pages\\delete-post",
   "PreviewInSolutionExplorer": false
 }

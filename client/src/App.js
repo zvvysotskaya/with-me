@@ -14,6 +14,7 @@ import ProfilePage from './pages/profile/profile.page';
 import AllPostsPage from './pages/all-posts/all-posts.page';
 import EditPostPage from './pages/edit-post/edit-post.page';
 
+
 function App() {
   return (
       <div>
@@ -27,7 +28,8 @@ function App() {
               <Route path='/singlePost/:id' component={SinglePostScreenPage} />
               <Route path='/profile/:username' component={ProfilePage} />
               <Route exact path='/all-posts-page' component={AllPostsPage} />
-              <PrivateRoute path='/post/:id/edit' component={EditPostPage}/>
+              <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
+           
           </Switch>
     </div>
   );

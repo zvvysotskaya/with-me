@@ -15,30 +15,37 @@ const CreatPostForm = () => {
     
     function handleSubmit(e) {
         e.preventDefault()
-        alert('Hello!!')
         let data = {
             title: val.title,
             body: val.body
         }
         if (data) {
-            fetch('post-post', {
+            fetch('/post-post', {
                 method: 'POST',
                 headers: { 'Content-type': 'Application/json' },
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
-                .then(message => setMess({ msg: message }))                
+                .then(message => setMess({ msg: message }))
+                .then()
+                .then(window.location.href = '/all-posts-page' )
                 .catch(err => (console.log(err)))
         }
     }
     return (
         <div className='container'>
             <div className='row justify-content-center'>
-                <div className='col-10 border rounded my-3'>
-                    {mess.msg}
+                <div className='col-10 border rounded my-4'>
+                    <div className={`alert text-center 
+                            ${mess.msg == 'You must provide a post content.' ? 'alert-danger' : ''}
+                            ${mess.msg == 'You must provide a title.' ? 'alert-danger' : ''}
+                            ${mess.msg == 'The post is created' ? 'alert-info' : ''}
+                    `}>
+                        {mess.msg}
+                    </div>
                     <form onSubmit={handleSubmit} method='POST'>
                         <div className='form-group'>
-                            <label for="title">Title:</label>
+                            <label >Title:</label>
                             <input
                                 type='text'
                                 className='form-control'
@@ -48,8 +55,9 @@ const CreatPostForm = () => {
                             />
                         </div>
                         <div className='form-group'>
-                            <label for="body">Post Content:</label>
+                            <label >Post Content:</label>
                             <textarea
+                                rows='10'
                                 className='form-control'
                                 type='text'
                                 name='body'

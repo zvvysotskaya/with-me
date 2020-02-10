@@ -74,7 +74,11 @@ module.exports = function (app) {
             res.send('hello, there')
         }
     })
-    
+    app.get('/loggedUserId', function (req, res) {
+        if (req.session.user) {
+            res.send(req.session.user._id)
+        }
+    })
 
 
 }

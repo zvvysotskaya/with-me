@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EditPostForm from '../../components/edit-post-form/edit-post-form.component'
 
-const CreatePostPage = ({ ...props }) => {
+const EditPostPage = ({ ...props }) => {
     let posts = props.match.params.id
     const [val, setVal] = useState([])
     useEffect(() => {
@@ -16,4 +16,4 @@ const CreatePostPage = ({ ...props }) => {
         {filtered.map((post) => (< EditPostForm key={post._id} post={post} />))}
     </div>)
 }
-export default CreatePostPage;
+export default EditPostPage;

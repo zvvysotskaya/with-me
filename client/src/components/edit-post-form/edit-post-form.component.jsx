@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
 
@@ -15,28 +16,35 @@ const EditPostForm = ({ post }) => {
 
 
     function handleSubmit(e) {
-        e.preventDefault()
-        alert('Hello!!')
+        e.preventDefault()       
         let data = {
+            id: post._id,
             title: val.title,
             body: val.body
         }
         if (data) {
-            fetch('post-post', {
+            fetch('/edit-post', {
                 method: 'POST',
                 headers: { 'Content-type': 'Application/json' },
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
-                .then(message => setMess({ msg: message }))
+                .then(message => setMess({ msg: message }))                
                 .catch(err => (console.log(err)))
         }
     }
     return (
         <div className='container'>
-            <div className='row justify-content-center'>
+            <div className='row justify-content-center mt-4'>
+                <p><Link to={`/singlePost/${post._id}`} className='small font-weight-bold '>&laquo; Back to post permalink</Link></p>
                 <div className='col-10 border rounded my-3'>
-                    {mess.msg}
+                    <div className={`alert text-center 
+                            ${mess.msg === 'You must provide a post content.' ? 'alert-danger' : ''}
+                            ${mess.msg === 'You must provide a title.' ? 'alert-danger' : ''}
+                            ${mess.msg === 'The post updated successfully!' ? 'alert-success' : ''}
+                    `}>
+                        {mess.msg}
+                    </div>                    
                     <form onSubmit={handleSubmit} method='POST'>
                         <div className='form-group'>
                             <label >Title:</label>
