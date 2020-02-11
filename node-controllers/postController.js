@@ -83,5 +83,27 @@ module.exports = function (app) {
             console.log('deleted!! (came from node.js id: '+req.body.id+')'))
         
     })
+    app.post('/search', function (req, res) {
+        console.log('search is working')
+        let searchTerm = req.body.searchTerm
+        let myAggr
+        if (typeof searchTerm == 'string') {
+            myAggr = [
+                { $match: { $text: { $search: searchTerm } } },
+                { $sort: { score: {$meta:'textScore'}}}
+            ]
+        } else {
+            res.send('We cannot make this apperation.')
+        }
+        db.collection('posts')
+                .aggregate(myAggr)
+                .toArray()
+                .then(function (result) {
+                    if (result) {
+                        res.send(result)
+                    }
+                })
+                .catch(err => console.log(err))
+    })
     
 }
