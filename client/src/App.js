@@ -31,7 +31,8 @@ function App() {
               <Route exact path='/all-posts-page' component={AllPostsPage} />
               <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
               <Route exact path='/search-page' component={SearchPage} />
-           
+              {//<PrivateRoute path='/addFollow/:username' component={} />}
+              }
           </Switch>
     </div>
   );

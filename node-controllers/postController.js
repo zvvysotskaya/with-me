@@ -80,7 +80,9 @@ module.exports = function (app) {
 
         db.collection('posts')
         .deleteOne({ _id: new mongodb.ObjectId(req.body.id) },
-            console.log('deleted!! (came from node.js id: '+req.body.id+')'))
+            console.log('deleted!! (came from node.js id: ' + req.body.id + ')'))
+            .then()
+        .catch(err=>console.log(err ))
         
     })
     app.post('/search', function (req, res) {
@@ -104,6 +106,28 @@ module.exports = function (app) {
                     }
                 })
                 .catch(err => console.log(err))
+    })
+    //follows collection
+    app.post('/follow', function (req, res) {
+        //1. validate
+        let followedUsername = req.body.followedUserName
+        let authorId = req.body.authorId
+        if (typeof followedUsername != 'string') {
+            followedUsername=''
+        }
+        //check if exists in db
+        let followedAccount = db.collection('users').findOne({ username: followedUsername })
+        if (followedAccount) {
+            let followedId = req.session.user._id
+            if (followedId != undefined) {
+                db.collection('follows').insertOne({ followedId: followedId, authorId: new ObjectID(authorId) })
+                    .then(res.send(`Successfully followed ${followedUserName}`))
+                    .catch(error => console.log(error))
+            }
+        } else {
+            res.send('You cannot follow a user that does not exist.')
+        }
+        
     })
     
 }

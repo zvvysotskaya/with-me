@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
-//const sanitizeHTML = require('sanitize-html')
-
 require('dotenv').config();
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)

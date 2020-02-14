@@ -69,7 +69,7 @@ module.exports = function (app) {
             res.send(req.session.user.avatar)
         }
     })
-    app.get('/bbb', function (req, res) {
+    app.get('/bbb', function (req, res) {//only check if anyone is loggedin
         if (req.session.user) {
             res.send('hello, there')
         }
