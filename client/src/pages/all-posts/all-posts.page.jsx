@@ -18,7 +18,9 @@ const AllPostsPage = () => {
                 <div className='col'>
                     <h1>All Posts</h1>
                     <div>
-                        {val.map((post) => <CardAllPosts key={post._id} post={post}/>)}
+                        <table className='table table-spriped table-bordered table-responsve'>
+                            {val.map((post) => <CardAllPosts key={post._id} post={post} />)}
+                        </table>
                     </div>
                 </div>
         </div>

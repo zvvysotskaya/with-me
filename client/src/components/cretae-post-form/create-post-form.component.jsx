@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
 
 const CreatPostForm = () => {
-    // window.location.reload();
     const [val, setVal] = useState({
         title: '',
         body: ''
@@ -11,7 +10,6 @@ const CreatPostForm = () => {
     const [mess, setMess] = useState({
         msg: ''
     })
-    
     
     function handleSubmit(e) {
         e.preventDefault()

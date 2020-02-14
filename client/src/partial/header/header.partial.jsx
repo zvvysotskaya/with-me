@@ -23,7 +23,7 @@ const Header = ({ history}) => {
     }, [])
     function search(e) {
         e.preventDefault()
-        setTimeout(()=>history.push('/search-page'),100)
+        setTimeout(()=>history.push('/search-page'),50)
     }
     
     return (

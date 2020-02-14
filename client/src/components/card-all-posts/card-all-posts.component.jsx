@@ -1,10 +1,15 @@
 import React from 'react';
+import DOMPurify from 'dompurify'
+
 
 const CardAllPosts = ({ post}) => {
     return (
-        <div>
-            <a href={`/singlePost/${post._id}`}>{post.title}</a>
-        </div>
-        )
+        <tbody>
+            <tr>
+                <td>
+                    <a href={`/singlePost/${post._id}`}>{ DOMPurify.sanitize(post.title) }</a>
+                </td>
+            </tr>
+        </tbody>)
 }
 export default CardAllPosts;
