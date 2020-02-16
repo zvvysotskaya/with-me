@@ -14,17 +14,25 @@ const Header = ({ history}) => {
     const [mess, setMess] = useState({
         message: ''
     })
+    const [user, setUser] = useState({
+        uName: ''
+    })
     useEffect(() => {
         fetch('/bbb')
             .then(res => res.text())
-            .then(message => setMess({ message: message }))
-            .then(message => console.log(message))
+            .then(message => setMess({ message: message }))            
             .catch(err => (console.log(err)))
     }, [])
     function search(e) {
         e.preventDefault()
         setTimeout(()=>history.push('/search-page'),50)
     }
+    useEffect(() => {
+        fetch('/aaa')
+            .then(res => res.text())
+            .then(res => setUser({ uName: res }))
+            .catch(err => console.log(err))
+    }, [])
     
     return (
         <div className='header '>
@@ -39,7 +47,7 @@ const Header = ({ history}) => {
 
                         </div>
                         {
-                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to='/profile/:'><Avatar /></Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<HeaderLogout /></div> : <HeaderLogin />
+                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to={`/profile/${user.uName}`}><Avatar /></Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<HeaderLogout /></div> : <HeaderLogin />
                         }                       
                     </div>
                 </div>

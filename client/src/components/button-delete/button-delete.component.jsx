@@ -12,7 +12,7 @@ const ButtonDelete = ({ post,history }) => {
         let userInput = window.confirm(`Are you sure you want to delete the post ${DOMPurify.sanitize(post.title)}`)
         if (userInput) {
             axios.post('/delete-post', { id: post._id})
-            .then(res => res.text())
+                .then(res => res.text())
                 .then(history.push(`/profile/${post.author.username}`))
                 .then(alert(`${DOMPurify.sanitize(post.title)} is deleted!!!!`))
                 .catch(er => console.log(er))
@@ -20,7 +20,7 @@ const ButtonDelete = ({ post,history }) => {
     }
     return (
         <div>
-            <BinIcon  onClick={handleDelete} />
+            <BinIcon onClick={handleDelete} />
         </div>
         )
 }

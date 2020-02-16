@@ -27,7 +27,6 @@ const SinglePostScreenPage = ({ post, ...props }) => {
     let filtered = val.filter((el) => el._id == posts)
     let userIdPost = filtered.map((el) => el.author._id)
     let userIdSessionLogged = userId.uId
-    console.log('fuserIdSessionLogged: ' + userIdSessionLogged + ' userIdSession: ' + userIdPost)
     return (
         <div>
             <div className='container'>

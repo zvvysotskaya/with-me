@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs')
 require('dotenv').config();
-const session = require('express-session')
 const md5 = require('md5');
 const sanitizeHTML = require('sanitize-html')
 
@@ -26,7 +25,6 @@ module.exports = function (app) {
             email: req.body.email,
             password: password
         }
-       // console.log(data)
         db.collection('users').insertOne(data)
     })
     app.post('/login-user', function (req, res) {
@@ -42,12 +40,10 @@ module.exports = function (app) {
                 // req.session.user.save()  
                 
                 if (req.session.user) {
-                    console.log('Hello from Session ' + req.session.id + ' ' + req.session.user)                    
-                }
-                    console.log('Congrats!')
+                    console.log('Hello')
+                }                   
                     res.send('Congrats!')
-                } else {
-                    console.log('Invalid pasword / email!')
+                } else {                    
                     res.send('Invalid pasword / email!')
                 }
             })
