@@ -22,7 +22,7 @@ const ButtonAddFollow = ({ posts, ...props }) => {
     return (
         <div>
             <div className={`alert text-center ${message.messageFollow === `Successfully followed ${followedUser}` ? 'alert-success' : ''}
-                ${message.messageFollow === `You have already followed that profile owner.` ? 'alert-danger' : ''}
+                ${message.messageFollow === `You are already following this user.` ? 'alert-danger' : ''}
                 ${message.messageFollow === `Sorry, you are the owner the profile.` ? 'alert-danger' : ''}
             `}>
                 {message.messageFollow}

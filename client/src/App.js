@@ -14,9 +14,12 @@ import ProfilePage from './pages/profile/profile.page';
 import AllPostsPage from './pages/all-posts/all-posts.page';
 import EditPostPage from './pages/edit-post/edit-post.page';
 import SearchPage from './pages/search/search.page';
+import FollowersPage from './pages/followers/followers.page';
+import FollowingPage from './pages/following/following.page';
 
 
 function App() {
+    
   return (
       <div>
           <Header/>
@@ -31,9 +34,11 @@ function App() {
               <Route exact path='/all-posts-page' component={AllPostsPage} />
               <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
               <Route exact path='/search-page' component={SearchPage} />
-              {//<PrivateRoute path='/addFollow/:username' component={} />}
-              }
+              <Route path='/followers-page/:username/follower' component={FollowersPage} />
+              <Route path='/following-page/:usernameFollowing/following' component={FollowingPage} />
+           
           </Switch>
+          
     </div>
   );
 }

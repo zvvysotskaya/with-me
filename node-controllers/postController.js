@@ -7,11 +7,11 @@ const ObjectID = require('mongodb').ObjectId
 let db;
 let connectionStrings = process.env.REACT_APP_DB_URL;
  mongodb.connect(connectionStrings, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) {
-    //assert.equal(null, err);
     db = client.db('WithMe');
  })
 
 module.exports = function (app) {
+     
     app.post('/post-post', function (req, res) {
         const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
         const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })        
@@ -78,7 +78,7 @@ module.exports = function (app) {
         db.collection('posts')
         .deleteOne({ _id: new mongodb.ObjectId(req.body.id) },
             console.log('deleted!! (came from node.js id: ' + req.body.id + ')'))
-            .then()
+            .then(res.send(`The post ${req.body.id} successfully deleted.`))
         .catch(err=>console.log(err ))
     })
     app.post('/search', function (req, res) {
@@ -91,7 +91,7 @@ module.exports = function (app) {
                 { $sort: { score: {$meta:'textScore'}}}
             ]
         } else {
-            res.send('We cannot make this apperation.')
+            res.send('We cannot make this aperation.')
         }
         db.collection('posts')
                 .aggregate(myAggr)
@@ -107,7 +107,7 @@ module.exports = function (app) {
     app.post('/follow', function (req, res) {
         //1. validate
         let followedUsername = req.body.followedUserName
-        let authorIdRequest = req.body.authorId
+        let authorIdRequest = ObjectID(req.body.authorId)
         if (typeof followedUsername != 'string') {
             followedUsername=''
         }
@@ -115,42 +115,30 @@ module.exports = function (app) {
            if (err) throw err;
             console.log('att: ' + attemptedUsename.username + ' ' + attemptedUsename._id)
             if (attemptedUsename.username) {
-                let followerSessionId = req.session.user._id
+                let followerSessionId = ObjectID(req.session.user._id)
                 //check if follower already follows the profile owner
-                 db.collection('follows').findOne({ follower: followerSessionId }, (err, attemptedFollower) => {
-                     if (err) throw err
-                     if (attemptedFollower == null && followerSessionId != authorIdRequest) {
+                db.collection('follows').find({ follower: followerSessionId }).toArray((err, result) => {
+                    if (err) throw err
+                    if (result === null) {
                          db.collection('follows').insertOne({ follower: followerSessionId, authorId: authorIdRequest })
                              .then(res.send(`Successfully followed ${followedUsername}`))
                              .catch()
-                     } 
-                     if (attemptedFollower != null) {
-                         let query = {
-                             follower: followerSessionId
-                         }
-                         db.collection('follows').find(query).toArray((err, result) => {
-                             if (err) throw err
-                             let arr
-                             let txt = []
-                             for (arr in result) {
-                                 txt.push(result[arr].authorId)
-                             }
-                             let req = txt.filter(el => el == authorIdRequest)
-                             if (req.length>0) {
-                                 res.send('You have already followed that profile owner.')
-                             }
-                             if (!req.length) {
-                                 db.collection('follows').insertOne({ follower: followerSessionId, authorId: authorIdRequest })
-                                     .then(res.send(`Successfully followed ${followedUsername}`))
-                                     .catch()
-                             }
-                              if(attemptedFollower === authorIdRequest) {
-                                 res.send('Sorry, you are the owner the profile.')
-                             }
-                             console.log('req authorId: ' + req)
-                             console.log('all authorsId: ' + txt)
-                             console.log('authorIdRequest: ' + authorIdRequest)
-                         })
+                    } 
+                    let txt =[]
+                    if (result != null) {
+                        for (let i in result) {
+                            txt.push((result[i].authorId))
+                        }
+                        
+                        let aa = txt.toString().includes(authorIdRequest)
+                        if (!aa) {
+                            db.collection('follows').insertOne({ follower: followerSessionId, authorId: authorIdRequest })
+                                .then(res.send(`Successfully followed ${followedUsername}`))
+                                .catch()
+                        }
+                        if (aa) {
+                            res.send('You are already following this user.')
+                        }
                      }
                 })
             } else {
@@ -158,5 +146,142 @@ module.exports = function (app) {
             }
         })
     })
-    
+    app.post('/deleteFollow', function (req, res) {
+        let followerSessionId = req.session.user._id
+        let authorIdRequest = req.body.id
+        let query = {
+            follower: ObjectID(followerSessionId)
+        }
+        db.collection('follows').find(query).toArray((err, result) => {//find the following owner id to remove from the follower account
+            if (err) throw err
+            let arr
+            let txt = []
+            for (arr in result) {
+                txt.push(result[arr].authorId)
+            }
+            let isAuthor = txt.filter(el => el.toString() === authorIdRequest.toString())
+            // find the owner's _id
+
+            db.collection('follows').find({ $and: [{ follower: ObjectID(followerSessionId) }, { authorId: ObjectID(isAuthor[0]) }] }).toArray((err, result) => {
+                if (err) throw err
+                let arr
+                let txt = []
+                for (arr in result) {
+                    txt.push(result[arr]._id)
+                }
+                //delete the owner account found by owner's _id
+
+                if (txt.length > 0) {
+                    db.collection('follows')
+                        .deleteOne({ _id: new mongodb.ObjectId(txt[0]) })
+                        .then(res.json('The user is successfully deleted.'))
+                        .catch(er => console.log(er))
+                } else {
+                    res.send('We cannot delete this account.')
+                }
+            })
+        })
+    })
+    function followingFollower(req, res, followingOrFollower,reqBodyUsername) {
+        if (req.session.user) {
+            let following = reqBodyUsername
+            let myaggr = [
+                {
+                    $lookup: {
+                        from: 'users', localField: followingOrFollower, foreignField: '_id', as: 'userDoc'//should be 'follower' or 'authorId'(authorId is for the follower page) in localField
+                    }
+                },
+                {
+                    $project: {
+                        "authorId": 1,
+                        'follower': 1,
+                        'username': { $arrayElemAt: ["$userDoc.username", 0] },
+                        'email': { $arrayElemAt: ['$userDoc.email', 0] },
+                        'userID': { $arrayElemAt: ['$userDoc._id', 0] }
+                    }
+                }
+            ]
+            console.log('following'+following)
+            db.collection('follows').aggregate(myaggr).toArray(function (er, resp) {
+                if (er) throw er
+                if (resp) {
+                    let followingSelected = resp.filter(el => {
+                        if (el.username != undefined || following != undefined) {
+                            return el.username === following.toString()//following is req.body.username or req.session.user.username
+                }
+                    })
+                    let txt = []
+                    for (let i = 0; i < followingSelected.length; i++) {
+                        let names = resp.find(el => {
+                            if (el.userID != undefined || followingSelected[i].authorId != undefined) {
+                                return el.userID.toString() === followingSelected[i].authorId.toString()
+                            } else {
+                                console.log('Not loggedin.')
+                            }
+                    })                     
+                        txt.push(names)
+                    }                  
+                    res.json(txt)
+                }
+            })
+        }
+    }
+    app.post('/allFollowing', function (req, res) {//this is disigned for following page only but not to show and hide button 'following'
+        if (req.body != undefined) {
+            followingFollower(req, res, 'follower', req.body.username)
+        } else {
+            console.log('not loggedin')
+        }
+    })
+    app.post('/allFollowingButton', function (req, res) {//this is for the following button of the profile page
+        if (req.session.user != undefined) {
+            followingFollower(req, res, 'follower', req.session.user.username)
+        } else {
+            console.log('Not loggedin')
+        }
+        
+    })
+    app.post('/allFollowers', function (req, res) {
+        if (req.session.user) {
+            let following = req.body.username
+            let myaggr = [
+                {
+                    $lookup: {
+                        from: 'users', localField: 'authorId', foreignField: '_id', as: 'userDoc'//should be 'follower' or 'authorId'(authorId is for the follower page) in localField
+                    }
+                },
+                {
+                    $project: {
+                        "authorId": 1,
+                        'follower': 1,
+                        'username': { $arrayElemAt: ["$userDoc.username", 0] },
+                        'email': { $arrayElemAt: ['$userDoc.email', 0] },
+                        'userID': { $arrayElemAt: ['$userDoc._id', 0] }
+                    }
+                }
+            ]
+            db.collection('follows').aggregate(myaggr).toArray(function (er, resp) {
+                if (er) throw er
+                if (resp) {
+                    let followingSelected = resp.filter(el => {
+                        if (el.username != undefined || following != undefined) {
+                            return el.username === following.toString()//following is req.body.username or req.session.user.username
+                        }
+                    }) 
+                    let txt = []
+                    for (let i = 0; i < followingSelected.length; i++) {
+                        let names = resp.find(el => {
+                            if (el.userID != undefined || followingSelected[i].follower != undefined) {
+                                return el.userID.toString() === followingSelected[i].follower.toString()
+                            } else {
+                                console.log('Not loggedin.')
+                            }
+                        })
+                        txt.push(names)
+                    }
+                    res.json(txt)
+                }
+            })
+        }
+    })
 }
