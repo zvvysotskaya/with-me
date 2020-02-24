@@ -6,6 +6,7 @@ import { ReactComponent as SearchIcon } from '../../img/search.svg';
 import HeaderLogin from '../../components/header-login/header-login.component';
 import HeaderLogout from '../../components/header-logout/header-logout.component';
 import Avatar from '../../components/avatar/avatar.component'
+import Chat from '../../components/chat/chat.component'
 
 import './header.styles.css'
 
@@ -47,7 +48,14 @@ const Header = ({ history}) => {
 
                         </div>
                         {
-                            mess.message === 'hello, there' ? <div className='d-flex mr-2'><Link to={`/profile/${user.uName}`}><Avatar /></Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<HeaderLogout /></div> : <HeaderLogin />
+                            mess.message === 'hello, there' ?
+                                <div className='d-flex mr-2'>
+                                    <Chat />&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                                    <Link to={`/profile/${user.uName}`}>
+                                        <Avatar />
+                                    </Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                                    <HeaderLogout /></div> :
+                                <HeaderLogin />
                         }                       
                     </div>
                 </div>

@@ -201,7 +201,7 @@ module.exports = function (app) {
                     }
                 }
             ]
-            console.log('following'+following)
+            console.log('following: '+following)
             db.collection('follows').aggregate(myaggr).toArray(function (er, resp) {
                 if (er) throw er
                 if (resp) {
@@ -227,17 +227,24 @@ module.exports = function (app) {
         }
     }
     app.post('/allFollowing', function (req, res) {//this is disigned for following page only but not to show and hide button 'following'
-        if (req.body != undefined) {
-            followingFollower(req, res, 'follower', req.body.username)
-        } else {
-            console.log('not loggedin')
+        if (req.session.user) {
+            if (req.body != undefined) {
+                followingFollower(req, res, 'follower', req.body.username)
+                console.log('!!!!!!! loggedin User:' + req.body.username)
+            } else {
+                console.log('not loggedin')
+                return
+            }
         }
     })
+
+       
     app.post('/allFollowingButton', function (req, res) {//this is for the following button of the profile page
         if (req.session.user != undefined) {
             followingFollower(req, res, 'follower', req.session.user.username)
         } else {
             console.log('Not loggedin')
+            return
         }
         
     })

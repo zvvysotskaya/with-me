@@ -1,0 +1,16 @@
+.chat_page {
+    width: 280px;
+    height: 370px;
+    position: absolute;
+    top: 150px;
+    right: 40px;
+    background-color: #ffffff;
+    z-index: 3;
+    border: 1px solid black;
+}
+
+@media(max-width:768px) {
+    .chat_page {
+        top: 125px;
+    }
+}

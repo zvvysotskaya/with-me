@@ -16,6 +16,7 @@ import EditPostPage from './pages/edit-post/edit-post.page';
 import SearchPage from './pages/search/search.page';
 import FollowersPage from './pages/followers/followers.page';
 import FollowingPage from './pages/following/following.page';
+import ChatPage from './pages/chat-page/chat-page.page'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
               <Route exact path='/search-page' component={SearchPage} />
               <Route path='/followers-page/:username/follower' component={FollowersPage} />
               <Route path='/following-page/:usernameFollowing/following' component={FollowingPage} />
+              <Route exact path='/chat-page' component={ChatPage} />
            
           </Switch>
           

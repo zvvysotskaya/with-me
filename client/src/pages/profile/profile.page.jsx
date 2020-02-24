@@ -9,54 +9,69 @@ import ButtonFollowing from '../../components/button-following/button-following.
 import ButtonFollower from '../../components/button-follower/button-follower.component';
 
 
-const ProfilePage = ( {post,...props } ) => {
-   
+const ProfilePage = ({ post, ...props }) => {
+
     let userPosts = props.match.params.username;
-    const [ val, setVal ] = useState([])
-    const [ mess, setMess ] = useState( {
+    const [val, setVal] = useState([])
+    const [mess, setMess] = useState({
         msg: ''
-    } )
-    const [ loggedIn, setLoggedIn ] = useState( {
+    })
+    const [loggedIn, setLoggedIn] = useState({
         msg: ''
-    } )
-    const [ allFollowing, setAllFollowing ] = useState( [] )
-    useEffect( () => {
+    })
+    const [allFollowing, setAllFollowing] = useState([])
+    useEffect(() => {
         fetch('/allPosts')
-            .then( res => (res.json() ) )
-            .then( res => setVal( res ) )
-            .catch( (error) => ( console.log( error ) ) );
-    }, [] )
-    useEffect( () => {
+            .then(res => (res.json()))
+            .then(res => setVal(res))
+            .catch((error) => (console.log(error)));
+    }, [])
+    useEffect(() => {
         fetch('/bbb')//check if anyone is loggedin
-            .then( res => res.text() )
-            .then( res => setMess({ msg: res } ) )
-            .catch( err => console.log( err ) )
-    }, [] )
-    useEffect( () => {
-        fetch( '/loggedUserId' )//find logged userId from session
-            .then( res => res.text() )
-            .then( res => setLoggedIn({ msg: res } ) )
-        .catch( err => console.log( err ) )
-    }, [] )
+            .then(res => res.text())
+            .then(res => setMess({ msg: res }))
+            .catch(err => console.log(err))
+    }, [])
+    useEffect(() => {
+        fetch('/loggedUserId')//find logged userId from session
+            .then(res => res.text())
+            .then(res => setLoggedIn({ msg: res }))
+            .catch(err => console.log(err))
+    }, [])
     useEffect(() => {
         axios.post('/allFollowingButton', { username: userPosts })
             .then(res => setAllFollowing(res.data))
             .catch(err => console.log(err))
     }, [])
-    let filtered = val.filter( el => el.author.username === userPosts )
+    let filtered = val.filter(el => el.author.username === userPosts)
     let author_id = filtered.map(el => el.author._id)//this is the profile owner's id
     //find out if id exists among following
-    let arr = allFollowing.map(el => el.follower)
     let followingAccount
-    if (arr.length > 0) {
-        followingAccount = arr.find(el => {
-            if (el != undefined && author_id[0] != undefined) {
-                return el.toString() === author_id[0].toString()
+    let arr
+    console.log('allfollowing: ' + allFollowing)
+    if (allFollowing.length > 0 && allFollowing != undefined && allFollowing != null) {
+        arr = allFollowing.map(el => {
+            if (el == undefined || el == null) {
+                console.log('Undefined')
+                return
             } else {
-                console.log('Wrong!!!!!!!!!!!!!!')
+                return el.follower
             }
         })
+        
+        if (arr.length > 0) {
+            followingAccount = arr.find(el => {
+                if (el != undefined && author_id[0] != undefined) {
+                    return el.toString() === author_id[0].toString()
+                } else {
+                    return
+                }
+            })
+        }
+    }else {
+        console.log('Do not have any posts')
     }
+
     //find a count of the following and the followers to add to the following and followers buttons
     //1. following count
     const [followingCount, setFollowingCount] = useState([])
@@ -71,7 +86,19 @@ const ProfilePage = ( {post,...props } ) => {
             .then(res => setFollowersCount(res.data))
             .catch(err => console.log(err))
     }, [])
-    let arrFollowing = followingCount.map(el => el.follower)
+    let arrFollowing
+    if (followingCount.length > 0 && followingCount != undefined && followingCount != null) {
+        arrFollowing = followingCount.map(el => {
+            if (el == undefined && el == null) {                
+                return 
+            } else {
+                return el.follower
+            }
+        })
+    } else {
+        followingCount[0] = 0
+    }
+        
     let arrFollowers = followersCount.map(el => el.authorId)
     function count(array) {
         return array.length

@@ -12,8 +12,8 @@ const FollowingPage = ({ post, ...props }) => {
         fetch('/allPosts')
             .then(res => (res.json()))
             .then(res => setVal(res))
-            .catch((error) => (console.log(error)));
-    }, [])
+            .catch((error) => (console.log(error)));        
+    }, [userPosts])
 
     const [allFollowing, setAllFollowing] = useState([])
 
@@ -21,7 +21,7 @@ const FollowingPage = ({ post, ...props }) => {
         axios.post('/allFollowing', { username: userPosts })
             .then(res => setAllFollowing(res.data ))
             .catch(err => console.log(err))
-    }, [])
+    }, [userPosts])
 
     let filtered = val.filter(el => el.author.username === userPosts)   
    
@@ -42,7 +42,15 @@ const FollowingPage = ({ post, ...props }) => {
                     <div className='container'>
                         <div className='row'>
                             <div className='col-md-12 my-3'>
-                                { allFollowing.map(posts => (< CardFollowingFollowers key={posts._id} posts={posts} /> ) ) } 
+                                {
+                                    (allFollowing == null || allFollowing == undefined) ? ' ' : allFollowing.map(posts => {
+                                        if (posts == null) {
+                                            return
+                                        } else {
+                                           return (< CardFollowingFollowers key={posts._id} posts={posts} />)
+                                        }
+                                    })
+                               } 
                             </div>
                         </div>
                     </div>
