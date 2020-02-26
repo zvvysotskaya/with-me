@@ -6,7 +6,10 @@
     right: 40px;
     background-color: #ffffff;
     z-index: 3;
-    border: 1px solid gray;
+    border: 1px solid #e6e6e6;
+    -webkit-box-shadow: 10px 10px 15px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 15px -10px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 15px -10px rgba(0,0,0,0.75);
     border-radius: 10px;
     animation-name: example;
     animation-duration: 1.2s;
@@ -46,9 +49,16 @@
 }
 .chat_card_body{
     background-color: #f2f2f2;
+    height: 222px;
+    color: black;
+    padding: 5px;
 }
 .chat_card_footer {
-
+    background-color: #f2f2f2;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    color: black;
+    padding: 5px;
 }
 @media(max-width:768px) {
     .chat_page {
