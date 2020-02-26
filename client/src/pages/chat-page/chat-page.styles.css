@@ -6,9 +6,50 @@
     right: 40px;
     background-color: #ffffff;
     z-index: 3;
-    border: 1px solid black;
+    border: 1px solid gray;
+    border-radius: 10px;
+    animation-name: example;
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
 }
+.chat_card_head {
+    background-color: #333333;
+    border-top-right-radius: 9px;
+    border-top-left-radius: 9px;
+    color: #f2f2f2;
+    padding: 5px;
+    margin: 0;
+}
+@-webkit-keyframes example {
+    from {
+        top: -300px;
+    }
+    to {
+        top: 200px;
+    }
+}
+@keyframes example {
+    from {
+        top: -300px;
+    }
+    to {
+        top: 200px;
+    }
+}
+@-moz-keyframes example {
+    from {
+        top: -300px;
+    }
+    to {
+        top: 200px;
+    }
+}
+.chat_card_body{
+    background-color: #f2f2f2;
+}
+.chat_card_footer {
 
+}
 @media(max-width:768px) {
     .chat_page {
         top: 125px;
