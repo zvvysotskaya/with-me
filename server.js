@@ -20,6 +20,7 @@ let sessionOptions = session({
 
 const compression = require('compression')
 const app = express();
+const sanitizeHTML = require('sanitize-html')
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
@@ -64,8 +65,8 @@ io.on('connection', function(socket){
     socket.on('chatMessageFromBrowser', function (data) {
         console.log('Data from browser!!!!!!!!!!!!!! ' + data.chatMessage+' username: '+data.userName+''+data.userEmail)
         //broadcast data to all connected users. If use io then all data willbe send to all connected users!!!important
-        io.emit('chatMessageFromServer', { message: data.chatMessage , username: data.userName, useremail: data.userEmail})
-        
+        io.emit('chatMessageFromServer', { message: sanitizeHTML(data.chatMessage, { allowedTags: [] }, { allowedAttributes: {} }), username: data.userName, useremail: data.userEmail })
+        //
     })
 });
 
