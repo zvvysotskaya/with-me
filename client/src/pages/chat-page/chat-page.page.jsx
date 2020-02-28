@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import './chat-page.styles.css'
 import ButtonChatClose from '../../components/button-chat-close/button-chat-close.component'
+import ChatForm from '../../components/chat-form/chat-form.component'
+import ChatDisplayMessageFromServer from '../../components/chat-display-message-from-server/chat-display-message-from-server.component'
 
-const ChatPage = ({ rem }) => {
-    useEffect(() => {
-        setTimeout(()=>document.getElementById('focuss').focus(), 1000)
-    }, [])
+const ChatPage = ({ rem, data, username, useremail }) => {
+
+   
     return (
         <div className='chat_page'>
             <div className="chat_card_head">
@@ -14,27 +15,12 @@ const ChatPage = ({ rem }) => {
                     <p>Chat</p>
                     <ButtonChatClose rem={rem} />
                 </div>
-                
             </div>
             <div className='chat_card_body'>
-                <p>Hello</p>
-                <div className=''>
-                    
-                </div>
+                <ChatDisplayMessageFromServer data={data} username={username} useremail={useremail}/>
             </div>
             <div className='chat_card_footer'>
-                <form>
-                    <div class="form-group">
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            placeholder="Write Your Message..."
-                            id="focuss"
-                        />
-                    </div>
-                </form>
+                <ChatForm />
             </div>
         </div>
     )

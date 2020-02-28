@@ -55,7 +55,19 @@ if (process.env.NODE_ENV != 'production') {
 };
 app.all('*', (req, res) => {
     res.send('<h1>Woops, we cannot find that page</h1>')
-})
+});
 
-module.exports = app
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+    socket.on('chatMessageFromBrowser', function (data) {
+        console.log('Data from browser!!!!!!!!!!!!!! ' + data.chatMessage+' username: '+data.userName+''+data.userEmail)
+        //broadcast data to all connected users. If use io then all data willbe send to all connected users!!!important
+        io.emit('chatMessageFromServer', { message: data.chatMessage , username: data.userName, useremail: data.userEmail})
+        
+    })
+});
+
+module.exports = server
 

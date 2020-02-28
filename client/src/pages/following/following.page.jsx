@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const FollowingPage = ({ post, ...props }) => {
 
-    let userPosts = props.match.params.usernameFollowing;
+    let userPosts = props.match.params.username;
     const [val, setVal] = useState([])
     
     useEffect(() => {

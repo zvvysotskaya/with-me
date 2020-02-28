@@ -57,9 +57,13 @@ module.exports = function (app) {
     app.get('/aaa', function (req, res) {//this is to get only username
         if (req.session.user) {
             res.send(req.session.user.username)
-            console.log()
         }
-    }) 
+    })
+    app.get('/userem', function (req, res) {
+        if (req.session.user) {
+            res.send(req.session.user.email)
+        }
+    })
     app.get('/avat', function (req, res) {
         if (req.session.user) {
             res.send(req.session.user.avatar)

@@ -36,7 +36,7 @@ function App() {
               <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
               <Route exact path='/search-page' component={SearchPage} />
               <Route path='/followers-page/:username/follower' component={FollowersPage} />
-              <Route path='/following-page/:usernameFollowing/following' component={FollowingPage} />
+              <Route path='/following-page/:username/following' component={FollowingPage} />
               <Route exact path='/chat-page' component={ChatPage} />
            
           </Switch>
