@@ -3,3 +3,15 @@
     height: 32px;
     border-radius: 16px;
 }
+.chat_log {
+    line-height: .1rem;
+    overflow-y: auto;  
+    overflow-x: scroll;
+    top: 0;
+    height:278px;
+}
+.chat_log p {
+    font-size: 12px;
+    
+}
+

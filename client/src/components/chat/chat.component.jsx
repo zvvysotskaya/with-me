@@ -6,7 +6,7 @@ import { ReactComponent as ChatIcon } from '../../img/chat.svg'
 import ChatPage from '../../pages/chat-page/chat-page.page'
 
 const Chat = () => {
-
+    let socket = io()
     const [st, setSt] = useState('')
 
     function click(e) {
@@ -16,16 +16,18 @@ const Chat = () => {
 
     function rem() {
         setSt('')
+      //  socket.close();
+      //  console.log('I am disconnected$$$$$$$$$')
     }
     
     
     function showChat() {
         setSt(<ChatPage rem={rem} />)
-        let socket = io()
         socket.on('chatMessageFromServer', function (data) {
-         //   alert("Response from server!!! " + data.message + ' ' + data.username + ' ' + data.useremail)//message came from backend
-            setSt(<ChatPage rem={rem} data={data.message} username={data.username} useremail={data.useremail} />)
+            setSt(<ChatPage rem={rem} data={[...data.message]} username={data.username} useremail={data.useremail} />)            
+            console.log('Client connected!!!!!!!!!!!!')
         })
+     //   socket.on('disconnect', function () { console.log('CLient disconnected!!!') });
     }
     
     return (

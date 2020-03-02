@@ -17,7 +17,7 @@ const ChatPage = ({ rem, data, username, useremail }) => {
                 </div>
             </div>
             <div className='chat_card_body'>
-                <ChatDisplayMessageFromServer data={data} username={username} useremail={useremail}/>
+                <ChatDisplayMessageFromServer data={data} username={username} useremail={useremail} key={username} />
             </div>
             <div className='chat_card_footer'>
                 <ChatForm />

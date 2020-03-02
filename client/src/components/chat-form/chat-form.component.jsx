@@ -33,12 +33,10 @@ const ChatForm = () => {
 
     function handleSubmit(e) {
         e.preventDefault()
-        sendMessageToServer()
+        sendMessageToServer() 
     }
 
     function sendMessageToServer() {
-        
-
         const data = {
             chatMessage: val.chatMessage,
             userName: valUserName.userName,
@@ -48,6 +46,7 @@ const ChatForm = () => {
         setVal({
             chatMessage: ''
         })
+       
         setTimeout(() => document.getElementById('focuss').focus(), 90)
     }
     return (

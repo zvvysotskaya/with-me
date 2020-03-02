@@ -63,11 +63,18 @@ const io = require('socket.io')(server);
 
 io.on('connection', function(socket){
     socket.on('chatMessageFromBrowser', function (data) {
-        console.log('Data from browser!!!!!!!!!!!!!! ' + data.chatMessage+' username: '+data.userName+''+data.userEmail)
+        console.log('Client connected')
         //broadcast data to all connected users. If use io then all data willbe send to all connected users!!!important
-        io.emit('chatMessageFromServer', { message: sanitizeHTML(data.chatMessage, { allowedTags: [] }, { allowedAttributes: {} }), username: data.userName, useremail: data.userEmail })
+       // io.emit('chatMessageFromServer', { message: sanitizeHTML(data.chatMessage, { allowedTags: [] }, { allowedAttributes: {} }), username: data.userName, useremail: data.userEmail })
+        socket.broadcast.emit('chatMessageFromServer', { message: sanitizeHTML(data.chatMessage, { allowedTags: [] }, { allowedAttributes: {} }), username: data.userName, useremail: data.userEmail })
         //
+       
     })
+   // socket.on("disconnect", () => console.log("Client disconnected$$$"))
+        //socket.on('end', function () {
+       //     socket.disconnect(0);
+           // console.log('Disconnected!!! I am great !!!')
+      //  });
 });
 
 module.exports = server

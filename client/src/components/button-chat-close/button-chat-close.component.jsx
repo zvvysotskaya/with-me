@@ -1,6 +1,8 @@
 import React from 'react'
 
-import {ReactComponent as CloseIcon}from '../../img/cancel-circle-chat.svg'
+
+import { ReactComponent as CloseIcon } from '../../img/cancel-circle-chat.svg'
+
 
 
 const ButtonChatClose = ({ rem,...props }) => {
