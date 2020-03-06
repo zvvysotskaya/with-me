@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
+
 
 const CreatPostForm = () => {
     const [val, setVal] = useState({
@@ -10,17 +11,27 @@ const CreatPostForm = () => {
     const [mess, setMess] = useState({
         msg: ''
     })
-    
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
             title: val.title,
-            body: val.body
+            body: val.body,
+            _csrf: csrfSt.toString()
         }
         if (data) {
             fetch('/post-post', {
                 method: 'POST',
-                headers: { 'Content-type': 'Application/json' },
+                headers: {
+                    'Content-type': 'Application/json',
+                    
+                },
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
@@ -63,7 +74,9 @@ const CreatPostForm = () => {
                                 onChange={(e) => setVal({...val, body: e.target.value})}
                             />
                         </div>
+                        < input type='hidden' name="_csrf" value={csrfSt.toString()} />
                         <div className='form-group'>
+                            
                             <CustomButton blueBtn type='submit'>Create</CustomButton>
                         </div>
                     </form>

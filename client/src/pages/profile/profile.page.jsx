@@ -12,47 +12,52 @@ import ButtonFollower from '../../components/button-follower/button-follower.com
 const ProfilePage = ({ post, ...props }) => {
 
     let userPosts = props.match.params.username;
-   
     
     const [val, setVal] = useState([])
-    const [mess, setMess] = useState({
-        msg: ''
-    })
-    const [loggedIn, setLoggedIn] = useState({
-        msg: ''
-    })
-    const [allFollowing, setAllFollowing] = useState([])
     useEffect(() => {
         fetch('/allPosts')
             .then(res => (res.json()))
             .then(res => setVal(res))
             .catch((error) => (console.log(error)));
     }, [])
+
+    const [mess, setMess] = useState({
+        msg: ''
+    })
     useEffect(() => {   
         fetch('/bbb')//check if anyone is loggedin
             .then(res => res.text())
             .then(res => setMess({ msg: res }))
-            .catch(err => console.log(err))
-     
+            .catch(err => console.log(err)) 
     }, [])
+
+    const [loggedIn, setLoggedIn] = useState({
+        msg: ''
+    })
     useEffect(() => {       
         fetch('/loggedUserId')//find logged userId from session
             .then(res => res.text())
             .then(res => setLoggedIn({ msg: res }))
             .catch(err => console.log(err))   
     }, [])
+    useEffect(() => { },[])
+    let filtered = val.filter(el => el.author.username === userPosts)
+    let author_id = filtered.map(el => el.author._id)//this is the profile owner's id
+
+    //find out if id exists among following
+    //find a count of the following and the followers to add to the following and followers buttons
+    //1. following count
+
+    const [allFollowing, setAllFollowing] = useState([])
     useEffect(() => {
-       
         axios.post('/allFollowingButton', { username: userPosts })
             .then(res => setAllFollowing(res.data))
             .catch(err => console.log(err))
     }, [userPosts])
-    let filtered = val.filter(el => el.author.username === userPosts)
-    let author_id = filtered.map(el => el.author._id)//this is the profile owner's id
-    //find out if id exists among following
+    
+    //find out if id exists among following to check if the signed up user followes
     let followingAccount
     let arr
-    
     if (allFollowing.length > 0 && allFollowing != undefined && allFollowing != null) {
         arr = allFollowing.map(el => {
             if (el == undefined || el == null) {
@@ -62,7 +67,7 @@ const ProfilePage = ({ post, ...props }) => {
                 return el.follower
             }
         })
-        
+
         if (arr.length > 0) {
             followingAccount = arr.find(el => {
                 if (el != undefined && author_id[0] != undefined) {
@@ -72,12 +77,12 @@ const ProfilePage = ({ post, ...props }) => {
                 }
             })
         }
-    }else {
+    } else {
         console.log('Do not have any posts')
     }
 
-    //find a count of the following and the followers to add to the following and followers buttons
-    //1. following count
+    //find a count of the following and the followers to add numbers to following and followers buttons
+    //1. count following
     const [followingCount, setFollowingCount] = useState([])
     useEffect(() => {
         if (!userPosts) {
@@ -88,18 +93,12 @@ const ProfilePage = ({ post, ...props }) => {
                 .catch(err => console.log(err))
         }
         return () => followingCount;
-    }, [followingCount])
-    const [followersCount, setFollowersCount] = useState([])
-    useEffect(() => {
-        axios.post('/allFollowers', { username: userPosts })
-            .then(res => setFollowersCount(res.data))
-            .catch(err => console.log(err))
-    }, [followersCount])
+    }, [])
     let arrFollowing
     if (followingCount.length > 0 && followingCount != undefined && followingCount != null) {
         arrFollowing = followingCount.map(el => {
-            if (el == undefined && el == null) {                
-                return 
+            if (el == undefined && el == null) {
+                return
             } else {
                 return el.follower
             }
@@ -107,8 +106,27 @@ const ProfilePage = ({ post, ...props }) => {
     } else {
         followingCount[0] = 0
     }
-        
-    let arrFollowers = followersCount.map(el => el.authorId)
+    //1. count followers
+    const [followersCount, setFollowersCount] = useState([])
+    useEffect(() => {
+        axios.post('/allFollowers', { username: userPosts })
+            .then(res => setFollowersCount(res.data))
+            .catch(err => console.log(err))
+    }, [])
+
+  //  let arrFollowers = followersCount.map(el => el.authorId)
+    let arrFollowers
+    if (followersCount.length > 0 && followersCount != undefined && followersCount != null) {
+        arrFollowers = followersCount.map(el => {
+            if (el == undefined && el == null) {
+                return
+            } else {
+                return el.authorId
+            }
+        })
+    } else {
+        followersCount[0] = 0
+    }
     function count(array) {
         return array.length
     }
@@ -122,9 +140,9 @@ const ProfilePage = ({ post, ...props }) => {
                             { filtered.map(posts => ( <AvatarProfile key={posts._id} posts={posts} /> ) )[0] }
                         </div>
                         <div className='col-md-6 mt-4 d-flex'>
-                            {(mess.msg === 'hello, there' && author_id[0] !== loggedIn.msg && followingAccount !== author_id[0]) ?
+                            {(mess.msg === 'hello, there' && author_id[0] !== loggedIn.msg && author_id[0] !== followingAccount) ?
                                 filtered.map(posts => (<ButtonAddFollow key={posts._id + 1} posts={posts} />))[0] : ''}
-                            {(mess.msg === 'hello, there' && followingAccount === author_id[0]) ?
+                            {(mess.msg === 'hello, there' && author_id[0] !== loggedIn.msg && author_id[0] === followingAccount) ?
                                 filtered.map(posts => ( <ButtonDeleteFollow key={ posts._id } posts={ posts } /> ) )[0] : '' }
                         </div>
                     </div>

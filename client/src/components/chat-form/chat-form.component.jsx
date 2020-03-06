@@ -30,6 +30,13 @@ const ChatForm = () => {
             .then(res => setValUserEmail({ userEmail: res }))
             .catch(er => console.log(er))
     }, [])
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -40,7 +47,8 @@ const ChatForm = () => {
         const data = {
             chatMessage: val.chatMessage,
             userName: valUserName.userName,
-            userEmail: valUserEmail.userEmail
+            userEmail: valUserEmail.userEmail,
+            _csrf: csrfSt.toString()
         }
         socket.emit('chatMessageFromBrowser', data)
         setVal({
@@ -61,10 +69,10 @@ const ChatForm = () => {
                         id="focuss"
                         value={val.chatMessage}
                         name='chatMessage'
-                        onChange={e=> setVal({ ...val, chatMessage: e.target.value })}
-                        
+                        onChange={e=> setVal({ ...val, chatMessage: e.target.value })}                        
                     />
                 </div>
+                < input type='hidden' name="_csrf" value={csrfSt.toString()} />
             </form>
         </div>
         )

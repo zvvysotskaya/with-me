@@ -17,8 +17,17 @@ const FollowersPage = ({ post, ...props }) => {
 
     const [allFollowers, setAllFollowers] = useState([])
 
+    const [csrfSt, setCsrfSt] = useState('')
     useEffect(() => {
-        axios.post('/allFollowers', { username: userPosts })
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
+
+    useEffect(() => {
+        axios.post('/allFollowers', { username: userPosts, _csrf: csrfSt.toString() })
+         //   .then(res=>console.log(res.data))
             .then(res => setAllFollowers(res.data))
             .catch(err => console.log(err))
     }, [])
@@ -42,7 +51,8 @@ const FollowersPage = ({ post, ...props }) => {
                     <div className='container'>
                         <div className='row'>
                             <div className='col-md-12 my-3'>
-                                {allFollowers.map(posts => (< CardFollowingFollowers key={posts._id} posts={posts} />))}
+                                {allFollowers === null ? '' : allFollowers.map(posts => (< CardFollowingFollowers key={posts._id} posts={posts} />))}
+                                
                             </div>
                         </div>
                     </div>

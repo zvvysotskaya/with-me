@@ -1,7 +1,11 @@
 const sanitizeHTML = require('sanitize-html')
 const md5 = require('md5');
+//tokens
+const csrf = require('csurf')
+const protect = csrf()
 
 require('dotenv').config();
+//mongodb
 const mongodb = require('mongodb');
 const ObjectID = require('mongodb').ObjectId
 let db;
@@ -11,8 +15,21 @@ let connectionStrings = process.env.REACT_APP_DB_URL;
  })
 
 module.exports = function (app) {
+
+    app.get('/getCSRF', protect, function (req, res) {
+        let token = req.csrfToken()
+        res.send(token)
+        console.log('CSRF token***: ' + token)
+    })
+    app.use(function (err, req, res, next) {
+        if (err.code !== 'EBADCSRFTOKEN') return next(err)
+        // handle CSRF token errors here
+        //   res.status(403)
+        res.send('Cross site request forgery detected.')
+    })
+   
      
-    app.post('/post-post', function (req, res) {
+    app.post('/post-post', protect, function (req, res) {
         const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
         const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })        
         let _id = ObjectID(req.session.user._id)
@@ -58,7 +75,7 @@ module.exports = function (app) {
             })
             .catch(err=>console.log(err))
     })
-    app.post('/edit-post', function (req, res) {
+    app.post('/edit-post', protect, function (req, res) {
         const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
         const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
         if (req.body.title === '') {
@@ -74,14 +91,14 @@ module.exports = function (app) {
                 .then(()=>res.send('The post updated successfully!'))
                 .catch(err => console.log(err))
     })
-    app.post('/delete-post', function (req, res) {
+    app.post('/delete-post', protect, function (req, res) {
         db.collection('posts')
         .deleteOne({ _id: new mongodb.ObjectId(req.body.id) },
             console.log('deleted!! (came from node.js id: ' + req.body.id + ')'))
             .then(res.send(`The post ${req.body.id} successfully deleted.`))
         .catch(err=>console.log(err ))
     })
-    app.post('/search', function (req, res) {
+    app.post('/search', protect, function (req, res) {
         console.log('search is working')
         let searchTerm = req.body.searchTerm
         let myAggr
@@ -106,7 +123,7 @@ module.exports = function (app) {
     //follows collection
     app.post('/follow', function (req, res) {
         //1. validate
-        let followedUsername = req.body.followedUserName
+        let followedUsername = req.body.follower
         let authorIdRequest = ObjectID(req.body.authorId)
         if (typeof followedUsername != 'string') {
             followedUsername=''
@@ -146,12 +163,13 @@ module.exports = function (app) {
             }
         })
     })
-    app.post('/deleteFollow', function (req, res) {
+    app.post('/deleteFollow', protect , function (req, res) {
         let followerSessionId = req.session.user._id
         let authorIdRequest = req.body.id
         let query = {
             follower: ObjectID(followerSessionId)
         }
+        console.log('follower:' + followerSessionId + 'author: ' + authorIdRequest)
         db.collection('follows').find(query).toArray((err, result) => {//find the following owner id to remove from the follower account
             if (err) throw err
             let arr
@@ -170,7 +188,7 @@ module.exports = function (app) {
                     txt.push(result[arr]._id)
                 }
                 //delete the owner account found by owner's _id
-
+                console.log('TXT: '+txt)
                 if (txt.length > 0) {
                     db.collection('follows')
                         .deleteOne({ _id: new mongodb.ObjectId(txt[0]) })
@@ -226,7 +244,7 @@ module.exports = function (app) {
             })
         }
     }
-    app.post('/allFollowing', function (req, res) {//this is disigned for following page only but not to show and hide button 'following'
+    app.post('/allFollowing', function (req, res) {//this is disigned for following page only to find following but not to show and hide button 'following'
         if (req.session.user) {
             if (req.body != undefined) {
                 followingFollower(req, res, 'follower', req.body.username)
@@ -237,8 +255,6 @@ module.exports = function (app) {
             }
         }
     })
-
-       
     app.post('/allFollowingButton', function (req, res) {//this is for the following button of the profile page
         if (req.session.user != undefined) {
             followingFollower(req, res, 'follower', req.session.user.username)
@@ -246,10 +262,9 @@ module.exports = function (app) {
             console.log('Not loggedin')
             return
         }
-        
     })
     app.post('/allFollowers', function (req, res) {
-        if (req.session.user) {
+      //  if (req.session.user) {
             let following = req.body.username
             let myaggr = [
                 {
@@ -289,6 +304,6 @@ module.exports = function (app) {
                     res.json(txt)
                 }
             })
-        }
+       // }
     })
 }

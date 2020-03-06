@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { withRouter } from 'react-router-dom';
 
 
@@ -19,26 +19,37 @@ const LoginPage = ({ history }) => {
             window.location ='/home-dashboard'
         } 
     }
-    
+
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
+
     function handleSubmit(e) {
         e.preventDefault()
-      //  alert('Hello!!!')
         let data = {
             email: val.email,
-            password: val.password
+            password: val.password,
+            _csrf: csrfSt.toString()
         }
         if (data) {
             fetch('/login-user', {
                 method: 'POST',
-                headers: { 'Content-type': 'Application/json' },
+                headers: {
+                    'Content-type': 'Application/json',
+                },
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
-                .then(message => setMess({ message: message }))                
+                .then(message => setMess({ message: message }))
                 .catch(err => (console.log(err)))
-        }
+            }
     }
-    return (
+    console.log('CSRF****: ' + csrfSt)
+      return (
         <div>
             
             <div className='container'>
@@ -60,7 +71,6 @@ const LoginPage = ({ history }) => {
                                     placeholder='email'
                                     value={val.email}
                                     onChange={(e) => (setVal({ ...val, email: e.target.value }))}
-
                                 />
                             </div>
                             <div className='form-group'>
@@ -73,13 +83,14 @@ const LoginPage = ({ history }) => {
                                     value={val.password}
                                     onChange={(e) => (setVal({ ...val, password: e.target.value }))}
                                 />
-                            </div>
-                            <button type="submit" className="btn btn-lg btn-danger">Login</button>&nbsp;
+                              </div>
+                              < input type='hidden' name="_csrf" value={csrfSt.toString()} />
+
+                            <button type="submit" className="btn btn-lg btn-danger" onClick={handleSubmit}>Login</button>&nbsp;
                         <button type='submit' onClick={redir()} className="btn btn-lg btn-danger">Reset</button>
                         </form>
                         <p className='mt-2'> do not have an account?</p>
                         <CustomButton blueBtn onClick={()=>history.push('/sign-up-page')}>Sign Up</CustomButton>
-
                     </div>
                 </div>
             </div>            

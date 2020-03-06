@@ -16,9 +16,8 @@ const FollowingPage = ({ post, ...props }) => {
     }, [userPosts])
 
     const [allFollowing, setAllFollowing] = useState([])
-
     useEffect(() => {
-        axios.post('/allFollowing', { username: userPosts })
+        axios.post('/allFollowing', { username: userPosts })      
             .then(res => setAllFollowing(res.data ))
             .catch(err => console.log(err))
     }, [userPosts])

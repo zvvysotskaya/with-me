@@ -21,6 +21,14 @@ const HomePage = () => {
 
     console.log('str: ' + myStr.toString())
 
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
+
     useEffect(() => {
         fetch('/allPosts')
             .then(res => (res.json()))
@@ -30,8 +38,10 @@ const HomePage = () => {
 
     useEffect(() => {
         
-        axios.get('/aaa')
-            .then(res => setUserPosts({ msg: res.data }))
+        fetch('/aaa')
+            .then(res => res.text())
+            .then(res=>console.log(res))
+          //  .then(res => setUserPosts({ msg: res.data }))
             .catch(er => console.log(er))
     }, [])
     useEffect(() => {
@@ -40,7 +50,8 @@ const HomePage = () => {
             return
         } else {
             axios.post('/allFollowing', {
-                username: userPosts.msg
+                username: userPosts.msg,
+                _csrf: csrfSt.toString()
             })
                 .then(res => setAllFollowing(res.data))
                 .catch(er => console.log(er))
@@ -49,7 +60,7 @@ const HomePage = () => {
 
     }, [userPosts.msg])
 
-               
+               console.log('CCCCC****: ')
    
     
     let filtered = val.filter(el => el.author.username === userPosts.msg)   

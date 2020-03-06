@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import validator from 'validator';
 
 import './sign-up.styles.css'
 
 
-const SignUp = ({ history}) => {
+const SignUp = ({ history }) => {
+
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
+
     const [val, setVal] = useState({
         username: '',
         email: '',
@@ -18,7 +27,8 @@ const SignUp = ({ history}) => {
             username: val.username.trim().toLowerCase(),
             password: val.password,
             email: val.email.trim().toLowerCase(),
-            confirmpassword: val.confirmpassword
+            confirmpassword: val.confirmpassword,
+            _csrf: csrfSt.toString()
         }
         if (!validator.isEmail(data.email)) {
             alert('Sorry the email is not valid')
@@ -111,6 +121,7 @@ const SignUp = ({ history}) => {
                                 onChange={(e) => (setVal({ ...val, confirmpassword: e.target.value }))}
                                 required />
                         </div>
+                        < input type='hidden' name="_csrf" value={csrfSt.toString()} />
                         <input type="submit" className="btn btn-lg btn-danger" value="Submit" />
                         </form>
                 </div>

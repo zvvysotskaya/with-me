@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {withRouter}from'react-router-dom'
+
 
 import ButtonCustom from '../button-custom/button-custom.component'
 
@@ -8,13 +8,21 @@ const ButtonDeleteFollow = ({ posts, history }) => {
     const [message, setMessage] = useState({
         msg: ''
     })
+
+
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
     function handleDelete(e) {
         e.preventDefault()
         let userInput = window.confirm(`Are you sure you want to delete ${posts.author.username} ?`)
         if (userInput) {
-            axios.post('/deleteFollow', { id: posts.author._id })             
+            axios.post('/deleteFollow', { id: posts.author._id, _csrf: csrfSt.toString() })             
                 .then(message => setMessage({ msg: message.data }))
-                .then(() => (history.push(`/`)))
                 .catch(er=>console.log(er))
         }
     } 
@@ -31,4 +39,4 @@ const ButtonDeleteFollow = ({ posts, history }) => {
         </div>
         )
 }
-export default withRouter(ButtonDeleteFollow)
+export default ButtonDeleteFollow

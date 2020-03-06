@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
@@ -13,14 +13,21 @@ const EditPostForm = ({ post }) => {
     const [mess, setMess] = useState({
         msg: ''
     })
-
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
 
     function handleSubmit(e) {
         e.preventDefault()       
         let data = {
             id: post._id,
             title: val.title,
-            body: val.body
+            body: val.body,
+            _csrf: csrfSt
         }
         if (data) {
             fetch('/edit-post', {
@@ -67,6 +74,7 @@ const EditPostForm = ({ post }) => {
                                 onChange={(e) => setVal({ ...val, body: e.target.value })}
                             />
                         </div>
+                        < input type='hidden' name="_csrf" value={csrfSt.toString()} />
                         <div className='form-group'>
                             <CustomButton blueBtn type='submit'>Save Updates</CustomButton>
                         </div>

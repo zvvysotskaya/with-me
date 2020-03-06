@@ -5,7 +5,7 @@ import axios from 'axios'
 import CustomButton from '../button-custom/button-custom.component';
 
 
-const ButtonFollower = ({ posts, arrLength }) => {
+const ButtonFollower = ({ posts, userPosts, arrLength }) => {
 
     return (
         <div>

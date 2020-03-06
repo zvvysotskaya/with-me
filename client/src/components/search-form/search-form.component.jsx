@@ -34,9 +34,18 @@ const SearchForm = () => {
             removeTableThead() 
         }
     }
+
+    const [csrfSt, setCsrfSt] = useState('')
+    useEffect(() => {
+        fetch('/getCSRF')
+            .then(res => res.text())
+            .then(res => setCsrfSt(res))
+            .catch(err => console.log(err))
+    }, [])
     function sendRequest() {
         let data = {
-            searchTerm:val.searchTerm
+            searchTerm: val.searchTerm,
+            _csrf: csrfSt.toString()
         }
         axios.post('/search', data)
             .then(res => {
@@ -97,6 +106,8 @@ const SearchForm = () => {
                     id='inp'
                     onKeyUp={keyPressHandler}
                 />
+
+                < input type='hidden' name="_csrf" value={csrfSt.toString()} />
                 <div className="input-group-append">
                     <span className="input-group-text" id="addon-wrapping"><SearchIconBlue /></span>
                 </div>
