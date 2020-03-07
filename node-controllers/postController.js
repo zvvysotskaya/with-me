@@ -23,11 +23,8 @@ module.exports = function (app) {
     })
     app.use(function (err, req, res, next) {
         if (err.code !== 'EBADCSRFTOKEN') return next(err)
-        // handle CSRF token errors here
-        //   res.status(403)
         res.send('Cross site request forgery detected.')
     })
-   
      
     app.post('/post-post', protect, function (req, res) {
         const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
@@ -121,7 +118,7 @@ module.exports = function (app) {
                 .catch(err => console.log(err))
     })
     //follows collection
-    app.post('/follow', function (req, res) {
+    app.post('/follow', protect, function (req, res) {
         //1. validate
         let followedUsername = req.body.follower
         let authorIdRequest = ObjectID(req.body.authorId)

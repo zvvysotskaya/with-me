@@ -30,7 +30,7 @@ module.exports = function (app) {
         //   res.status(403)
         res.send('Cross site request forgery detected.')
     })
-    app.post('/create-user', function (req, res) {
+    app.post('/create-user',protect, function (req, res) {
         let safeUsername = sanitizeHTML(req.body.username, { allowedTags: [], allowedAttributes: {} })
         //hash user password
         let salt = bcrypt.genSaltSync(10)
@@ -42,7 +42,7 @@ module.exports = function (app) {
         }
         db.collection('users').insertOne(data)
     })
-    app.post('/login-user', function (req, res) {
+    app.post('/login-user',protect, function (req, res) {
         
         console.log("Login Page working!!!!!!!!!!!!")
   //      console.log('Cookies: ', req.cookies);
@@ -73,7 +73,7 @@ module.exports = function (app) {
       //      res.send('Invalid!!!!')
       //  }
     })
-    app.get('/logout', function (req, res) {
+    app.get('/logout', protect, function (req, res) {
         req.session.destroy(function () {            
             res.send('You are now loggedout.')
         });

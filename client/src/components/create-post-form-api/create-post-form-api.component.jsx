@@ -1,36 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
 
 
-const CreatPostForm = () => {
-
+const CreatPostFormAPI = () => {
     const [val, setVal] = useState({
         title: '',
         body: ''
     })
-
     const [mess, setMess] = useState({
         msg: ''
     })
-
-    const [csrfSt, setCsrfSt] = useState('')
-    useEffect(() => {
-        fetch('/getCSRF')
-            .then(res => res.text())
-            .then(res => setCsrfSt(res))
-            .catch(err => console.log(err))
-    }, [])
-
+    
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
             title: val.title,
-            body: val.body,
-            _csrf: csrfSt.toString()
+            body: val.body
         }
         if (data) {
-            fetch('/post-post', {
+            fetch('/api/post-post', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'Application/json'
@@ -39,8 +28,8 @@ const CreatPostForm = () => {
             })
                 .then(res => res.text())
                 .then(message => setMess({ msg: message }))
-                .then()
-                .then(window.location.href = '/all-posts-page' )
+            //    .then()
+            //    .then(window.location.href = '/all-posts-page')
                 .catch(err => (console.log(err)))
         }
     }
@@ -63,7 +52,7 @@ const CreatPostForm = () => {
                                 className='form-control'
                                 name='title'
                                 value={val.title}
-                                onChange={(e) => setVal({...val, title: e.target.value})}
+                                onChange={(e) => setVal({ ...val, title: e.target.value })}
                             />
                         </div>
                         <div className='form-group'>
@@ -74,11 +63,10 @@ const CreatPostForm = () => {
                                 type='text'
                                 name='body'
                                 value={val.body}
-                                onChange={(e) => setVal({...val, body: e.target.value})}
+                                onChange={(e) => setVal({ ...val, body: e.target.value })}
                             />
-                        </div>
-                        < input type='hidden' name="_csrf" value={csrfSt.toString()} />
-                        <div className='form-group'>                            
+                        </div>          
+                        <div className='form-group'>
                             <CustomButton blueBtn type='submit'>Create</CustomButton>
                         </div>
                     </form>
@@ -87,4 +75,4 @@ const CreatPostForm = () => {
         </div>
     )
 }
-export default CreatPostForm;
+export default CreatPostFormAPI;

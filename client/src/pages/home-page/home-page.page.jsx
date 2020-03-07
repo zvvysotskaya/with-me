@@ -32,7 +32,7 @@ const HomePage = () => {
     useEffect(() => {
         fetch('/allPosts')
             .then(res => (res.json()))
-            .then(res => setVal(res))
+     //       .then(res => setVal(res))
             .catch((error) => (console.log(error)));
     }, [])
 

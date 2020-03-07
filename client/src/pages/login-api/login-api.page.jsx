@@ -1,9 +1,9 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 
 import CustomButton from '../../components/button-custom/button-custom.component';
-import './login.styles.css';
+
 
 const LoginPage = ({ history }) => {
     const [val, setVal] = useState({
@@ -16,27 +16,17 @@ const LoginPage = ({ history }) => {
     function redir() {
         if (mess.message === 'Congrats!') {
             localStorage.setItem('user', JSON.stringify(mess.message))
-            window.location ='/home-dashboard'
-        } 
+            window.location = '/home-dashboard'
+        }
     }
-
-    const [csrfSt, setCsrfSt] = useState('')
-    useEffect(() => {
-        fetch('/getCSRF')
-            .then(res => res.text())
-            .then(res => setCsrfSt(res))
-            .catch(err => console.log(err))
-    }, [])
-
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
             email: val.email,
-            password: val.password,
-            _csrf: csrfSt.toString()
+            password: val.password
         }
         if (data) {
-            fetch('/login-user', {
+            fetch('/api/login-user', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'Application/json',
@@ -46,12 +36,11 @@ const LoginPage = ({ history }) => {
                 .then(res => res.text())
                 .then(message => setMess({ message: message }))
                 .catch(err => (console.log(err)))
-            }
+        }
     }
-  //  console.log('CSRF****: ' + csrfSt)
-      return (
+    //  console.log('CSRF****: ' + csrfSt)
+    return (
         <div>
-            
             <div className='container'>
                 <div className='row justify-content-center'>
                     <div className='col-md-5 col-sm-8 justify-content-center border rounded mt-md-5 mt-0 mb-md-5 p-5'>
@@ -59,7 +48,7 @@ const LoginPage = ({ history }) => {
                         <div className='message-background'>
                             <p className=''> {mess.message}</p>
                         </div>
-                        
+
                         <p id='validationForm'></p>
                         <form onSubmit={handleSubmit} method='POST'>
                             <div className='form-group'>
@@ -83,17 +72,15 @@ const LoginPage = ({ history }) => {
                                     value={val.password}
                                     onChange={(e) => (setVal({ ...val, password: e.target.value }))}
                                 />
-                              </div>
-                              < input type='hidden' name="_csrf" value={csrfSt.toString()} />
-
+                            </div>
                             <button type="submit" className="btn btn-lg btn-danger" onClick={handleSubmit}>Login</button>&nbsp;
-                        <button type='submit' onClick={redir()} className="btn btn-lg btn-danger">Reset</button>
+                            <button type='submit' onClick={redir()} className="btn btn-lg btn-danger">Reset</button>
                         </form>
                         <p className='mt-2'> do not have an account?</p>
-                        <CustomButton blueBtn onClick={()=>history.push('/sign-up-page')}>Sign Up</CustomButton>
+                        <CustomButton blueBtn onClick={() => history.push('/sign-up-page')}>Sign Up</CustomButton>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     );
 }

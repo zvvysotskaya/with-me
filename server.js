@@ -6,8 +6,12 @@ const helmet = require('helmet');
 const csrf = require('csurf')
 const path = require('path');
 require('dotenv').config();
+const app = express();
+
+
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
+
 let sessionOptions = session({
     secret: 'keyboard cat', 
     store: new MongoStore({
@@ -19,7 +23,7 @@ let sessionOptions = session({
 })
 
 const compression = require('compression')
-const app = express();
+
 const sanitizeHTML = require('sanitize-html')
 app.use(helmet());
 app.use(cors());
@@ -33,7 +37,8 @@ app.use(express.static('client/public'));
 app.use(sessionOptions)
 
 app.use(compression())
-
+const apiController = require('./node-controllers/apiController')
+apiController(app)
 const userController = require('./node-controllers/userController')
 userController(app)
 const postController = require('./node-controllers/postController')

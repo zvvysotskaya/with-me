@@ -16,7 +16,9 @@ import EditPostPage from './pages/edit-post/edit-post.page';
 import SearchPage from './pages/search/search.page';
 import FollowersPage from './pages/followers/followers.page';
 import FollowingPage from './pages/following/following.page';
-import ChatPage from './pages/chat-page/chat-page.page'
+import ChatPage from './pages/chat-page/chat-page.page';
+import LoginPageAPI from './pages/login-api/login-api.page'
+import CreatePostPageAPI from './pages/create-post-api/create-post-api.page';
 
 
 function App() {
@@ -27,6 +29,9 @@ function App() {
           <Switch>
               <Route exact path='/' component={HomePage} />
               <Route exact path='/login-page' component={LoginPage} />
+              <Route exact path='/api/login-user' component={LoginPageAPI} />
+              <PrivateRoute exact path='/api/create-post-page' component={CreatePostPageAPI} />
+
               <Route exact path='/sign-up-page' component={SignUpPage} />
               <Route exact path='/home-dashboard' component={HomeDashboardPage} />
               <PrivateRoute exact path='/create-post-page' component={CreatePostPage} />
