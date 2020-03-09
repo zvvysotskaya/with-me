@@ -8,6 +8,7 @@ import HeaderLogout from '../../components/header-logout/header-logout.component
 import Avatar from '../../components/avatar/avatar.component'
 import Chat from '../../components/chat/chat.component'
 
+
 import './header.styles.css'
 
 
@@ -39,7 +40,7 @@ const Header = ({ history}) => {
         <div className='header '>
             <div className='container'>
                 <div className='row'>
-                    <div className='col-2 d-flex justify-content-between'>
+                    <div className='col-2 d-flex justify-content-between'>                        
                         <Link to='/' className='home_icon'><HomeIcon /></Link>
                     </div>
                     <div className='col-10 d-flex justify-content-end '>

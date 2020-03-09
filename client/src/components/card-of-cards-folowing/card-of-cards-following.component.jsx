@@ -18,7 +18,7 @@ const CardOfCardsFollowing = ({ filtered, allFollowing }) => {
                     </div>
                 </div>
                 <div className="card-body">
-                    <h5 className="card-title text-center">The Posts from Those You Follow</h5>
+                    <h5 className="card-title text-center">The Feeds from Those You are Following</h5>
                     <div className='container'>
                         <div className='row'>
                             <div className='col-md-12 my-3'>

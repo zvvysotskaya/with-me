@@ -21,9 +21,15 @@ const CreatPostForm = () => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
-
+    const [disabledState, setDisabledState] = useState({
+        dis:false
+    })
     function handleSubmit(e) {
         e.preventDefault()
+        if (mess.msg === 'The post is created') {
+            setDisabledState({ dis: true })
+            return
+        }
         let data = {
             title: val.title,
             body: val.body,
@@ -39,15 +45,23 @@ const CreatPostForm = () => {
             })
                 .then(res => res.text())
                 .then(message => setMess({ msg: message }))
-                .then()
-                .then(window.location.href = '/all-posts-page' )
+                .then(() => {
+                    if (mess.msg === 'The post is created') {
+                     //   setDisabledState({ dis: true })
+                     //   return
+                    }
+                })
+            //    .then(window.location.href='/' )
                 .catch(err => (console.log(err)))
         }
     }
     return (
         <div className='container'>
             <div className='row justify-content-center'>
-                <div className='col-10 border rounded my-4'>
+                <div className='col-md-10 border rounded my-4'>
+                    <div>
+                        <h2 className='text-center'>Create a New Post</h2>
+                    </div>
                     <div className={`alert text-center 
                             ${mess.msg == 'You must provide a post content.' ? 'alert-danger' : ''}
                             ${mess.msg == 'You must provide a title.' ? 'alert-danger' : ''}
@@ -78,8 +92,8 @@ const CreatPostForm = () => {
                             />
                         </div>
                         < input type='hidden' name="_csrf" value={csrfSt.toString()} />
-                        <div className='form-group'>                            
-                            <CustomButton blueBtn type='submit'>Create</CustomButton>
+                        <div className='form-group text-center'>                            
+                            <CustomButton blueBtn type='submit' disabled={disabledState.dis}>Create Post</CustomButton>
                         </div>
                     </form>
                 </div>

@@ -11,7 +11,6 @@ import CreatePostPage from './pages/create-post/create-post.page';
 import PrivateRoute from './components/private-route/private-route.component';
 import SinglePostScreenPage from './pages/single-post-screen/single-post-screen.page'
 import ProfilePage from './pages/profile/profile.page';
-import AllPostsPage from './pages/all-posts/all-posts.page';
 import EditPostPage from './pages/edit-post/edit-post.page';
 import SearchPage from './pages/search/search.page';
 import FollowersPage from './pages/followers/followers.page';
@@ -36,8 +35,7 @@ function App() {
               <Route exact path='/home-dashboard' component={HomeDashboardPage} />
               <PrivateRoute exact path='/create-post-page' component={CreatePostPage} />
               <Route path='/singlePost/:id' component={SinglePostScreenPage} />
-              <Route path='/profile/:username' component={ProfilePage} />
-              <Route exact path='/all-posts-page' component={AllPostsPage} />
+              <Route path='/profile/:username' component={ProfilePage} />              
               <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
               <Route exact path='/search-page' component={SearchPage} />
               <Route path='/followers-page/:username/follower' component={FollowersPage} />

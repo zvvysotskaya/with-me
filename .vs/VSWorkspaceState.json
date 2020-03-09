@@ -2,16 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\client",
+    "\\client\\public",
     "\\client\\src",
-    "\\client\\src\\components",
-    "\\client\\src\\components\\button-delete-follow",
-    "\\client\\src\\components\\button-following",
-    "\\client\\src\\components\\card-following-followers",
-    "\\client\\src\\pages",
-    "\\client\\src\\pages\\following",
-    "\\client\\src\\partial",
-    "\\node-controllers"
+    "\\client\\src\\components\\create-post-form-api",
+    "\\client\\src\\components\\cretae-post-form",
+    "\\client\\src\\components\\search-form",
+    "\\client\\src\\img",
+    "\\client\\src\\pages\\profile",
+    "\\Local settings (.vs)"
   ],
-  "SelectedNode": "\\node-controllers\\postController.js",
+  "SelectedNode": "\\client\\src\\img",
   "PreviewInSolutionExplorer": false
 }
