@@ -6,7 +6,8 @@ import { ReactComponent as SearchIcon } from '../../img/search.svg';
 import HeaderLogin from '../../components/header-login/header-login.component';
 import HeaderLogout from '../../components/header-logout/header-logout.component';
 import Avatar from '../../components/avatar/avatar.component'
-import Chat from '../../components/chat/chat.component'
+import Chat from '../../components/chat/chat.component';
+import Navigation from'../../components/navigation/navigation.component'
 
 
 import './header.styles.css'
@@ -55,6 +56,7 @@ const Header = ({ history}) => {
                                     <Link to={`/profile/${user.uName}`}>
                                         <Avatar />
                                     </Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                                    <Navigation />&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                                     <HeaderLogout /></div> :
                                 <HeaderLogin />
                         }                       

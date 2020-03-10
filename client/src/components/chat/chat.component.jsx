@@ -17,15 +17,13 @@ const Chat = () => {
     function rem() {
         setSt('')
       //  socket.close();
-      //  console.log('I am disconnected$$$$$$$$$')
-    }
-    
+      
+    } 
     
     function showChat() {
         setSt(<ChatPage rem={rem} />)
         socket.on('chatMessageFromServer', function (data) {
-            setSt(<ChatPage rem={rem} data={[...data.message]} username={data.username} useremail={data.useremail} />)            
-            console.log('Client connected!!!!!!!!!!!!')
+            setSt(<ChatPage rem={rem} data={[...data.message]} username={data.username} useremail={data.useremail} />)           
         })
      //   socket.on('disconnect', function () { console.log('CLient disconnected!!!') });
     }
