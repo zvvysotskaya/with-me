@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './avatar-large-image.styles.css'
-
 const md5 = require('md5');
 
 const AvatarLargeImage = ({ posts }) => (

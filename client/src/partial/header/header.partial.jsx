@@ -57,7 +57,8 @@ const Header = ({ history}) => {
                                         <Avatar />
                                     </Link>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
                                     <Navigation />&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                                    <HeaderLogout /></div> :
+                                    <HeaderLogout />
+                                </div> :
                                 <HeaderLogin />
                         }                       
                     </div>

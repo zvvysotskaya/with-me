@@ -14,11 +14,11 @@ const AllPostsPage = () => {
 
     return (
         <div>
-            <div class="card">
-                <div class="card-header bg-dark text-light text-center">
+            <div className="card">
+                <div className="card-header bg-dark text-light text-center">
                     Blog Posts Links
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                     <table className='table table-responsve'>
                         {val.map((post) => <CardAllPosts key={post._id} post={post} />)}
                     </table>

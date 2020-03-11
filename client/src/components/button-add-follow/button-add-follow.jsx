@@ -17,6 +17,8 @@ const ButtonAddFollow = ({ posts, ...props }) => {
     }, [])
 
     let followedUser = posts.author.username
+    
+   const[isMounted, setIsMounted]= useState(false)
     function addFollow(e) {
         e.preventDefault()
         let data = {
@@ -24,10 +26,23 @@ const ButtonAddFollow = ({ posts, ...props }) => {
             authorId: posts.author._id,
             _csrf: csrfSt.toString()
         }
+
         axios.post('/follow', data)
-            .then(res => setMessage({messageFollow: res.data}))
-            .catch(err=>console.log(err))
+            .then(res => setMessage({ messageFollow: res.data }))
+            .catch(err => console.log(err))
+        setIsMounted(true)
     }
+    useEffect(() => {
+        if (isMounted) {
+            document.addEventListener('click', addFollow)
+            return () => {
+                return document.removeEventListener('click', addFollow)
+            }
+        } else {
+            document.removeEventListener('click', addFollow)
+        }
+    }, [isMounted])
+
     return (
         <div>
             <div className={`alert text-center ${message.messageFollow === `Successfully followed ${followedUser}` ? 'alert-success' : ''}

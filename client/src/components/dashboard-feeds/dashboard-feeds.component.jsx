@@ -2,8 +2,8 @@ import React from 'react';
 import CardFollowingFollowers from '../card-following-followers/card-following-followers.component';
 import CardEmptyFeed from '../card-empty-feed/card-empty-feed.component';
 
-const DashboardFeeds = ({ filtered, allFollowing }) => {
-    return (
+const DashboardFeeds = ({ filtered, allFollowing }) => (
+   
         <div>
             <div class="card">
                 <div class="card-header bg-dark text-light text-center">
@@ -15,6 +15,7 @@ const DashboardFeeds = ({ filtered, allFollowing }) => {
                             (filtered == null ? '' :
                                 (filtered.map(posts => {
                                     if (posts == null) {
+                                        console.log('n')
                                         return
                                     } else {
                                         return (<CardEmptyFeed key={posts._id} posts={posts} />)
@@ -34,9 +35,7 @@ const DashboardFeeds = ({ filtered, allFollowing }) => {
                     }
                 </div>
             </div>
-
         </div>
     )
 
-}
 export default DashboardFeeds;

@@ -45,15 +45,25 @@ const HomeDashboardPage = ({ history }) => {
     
     return (
         <div className='container'>
-            <CardPageLayout>                
-                <div className='text-center mt-md-3'>{filtered == null ? '' : filtered.map(posts => (<AvatarLargeImage key={posts._id} posts={posts} />))[0]}</div>
-                <h3 className='text-center'>Hello {userPosts.msg}</h3>
-                <div className='my-2 my-md-4 text-center'>
-                    <CustomButton onClick={() => history.push('/create-post-page')}>Create a New Post</CustomButton>
+            <CardPageLayout>
+                <div className='container'>
+                    <div className='row justify-content-center'>
+                        <div className='col-md-10'>
+                            <div className='text-center mt-md-3 mt-1'>
+                                {filtered == null ? '' : filtered.map(posts => (<AvatarLargeImage key={posts._id} posts={posts} />))[0]}
+                            </div>
+                            <h3 className='text-center mt-1 mt-md-3'>Hello {userPosts.msg}</h3>
+                            <div className='my-2 my-md-4 text-center'>
+                                <CustomButton onClick={() => history.push('/create-post-page')}>Create a New Post</CustomButton>
+                            </div>
+                            <div>
+                                {userPosts.msg ?
+                                    (<DashboardFeeds allFollowing={allFollowing} filtered={filtered} />) : ''
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                {userPosts.msg ?
-                    (<DashboardFeeds allFollowing={allFollowing} filtered={filtered} />) : ''
-                }
             </CardPageLayout>
         </div>
     )

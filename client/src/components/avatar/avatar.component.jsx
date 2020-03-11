@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './avatar.styles.css'
-
 
 const Avatar = () => {
+
     const [pic, setPik] = useState({
         image: ''
     })
@@ -16,9 +15,9 @@ const Avatar = () => {
     return (
         <div>
             <div>
-               <img src={pic.image} className='img-fluid img_avatar' />
+               <img src={pic.image} className='img-fluid img_avatar_tiny' />
             </div>
-
-        </div>)
+        </div>
+    )
 }
 export default Avatar;

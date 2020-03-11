@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CardFollowingFollowers from '../../components/card-following-followers/card-following-followers.component';
 import AvatarProfile from '../../components/avatar-profile/avatar-profile.component';
+import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
+
 import axios from 'axios'
 
 const FollowersPage = ({ post, ...props }) => {
@@ -35,8 +37,9 @@ const FollowersPage = ({ post, ...props }) => {
     let filtered = val.filter(el => el.author.username === userPosts)
 
     return (
+        <CardPageLayout>
         <div className='container'>
-            <div className="card">
+            <div className="card mt-md-3 mt-1">
                 <div className="card-header">
                     <div className='col-md-12 d-flex justify-content-between'>
                         <div className='col-md-6 d-flex mt-4'>
@@ -47,18 +50,18 @@ const FollowersPage = ({ post, ...props }) => {
                     </div>
                 </div>
                 <div className="card-body">
-                    <h5 className="card-title text-center">Followers List</h5>
+                    <h5 className="card-title text-center text-dark">Your Followers Feeds</h5>
                     <div className='container'>
                         <div className='row'>
-                            <div className='col-md-12 my-3'>
-                                {allFollowers === null ? '' : allFollowers.map(posts => (< CardFollowingFollowers key={posts._id} posts={posts} />))}
-                                
+                            <div className='col-md-10 my-3'>
+                                {allFollowers === null ? '' : allFollowers.map(posts => (< CardFollowingFollowers key={posts._id} posts={posts} />))}                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+            </CardPageLayout>
     )
 }
 export default FollowersPage;

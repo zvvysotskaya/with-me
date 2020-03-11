@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 
 import CardSinglePost from '../../components/card-single-post/card-single-post.component';
 import ButtonEdit from '../../components/button-edit/button-edit.component';
-import ButtonDelete from'../../components/button-delete/button-delete.component'
+import ButtonDelete from '../../components/button-delete/button-delete.component'
+import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
+import AvatarProfile from '../../components/avatar-profile/avatar-profile.component';
 
 const SinglePostScreenPage = ({ post, ...props }) => {
     let posts = props.match.params.id
@@ -29,6 +31,7 @@ const SinglePostScreenPage = ({ post, ...props }) => {
     let userIdSessionLogged = userId.uId
     return (
         <div>
+            <CardPageLayout>
             <div className='container'>
                 <div className='row '>
                     <div className='col my-3 d-flex justify-content-end'>
@@ -38,7 +41,14 @@ const SinglePostScreenPage = ({ post, ...props }) => {
                     </div>
                 </div>
             </div>
-            {filtered.map(post => (<CardSinglePost key={post._id} post={post}/>)) }
+                {filtered.map(post => (<CardSinglePost key={post._id} post={post} />))}
+            </CardPageLayout>
+
+
+
+
+            
+
         </div>)
 }
 export default SinglePostScreenPage
