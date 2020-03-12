@@ -20,7 +20,13 @@ const EditPostForm = ({ post }) => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
-
+    useEffect((e) => {
+        if (e == undefined) {
+            return
+        }
+        handleSubmit(e)
+        return () => handleSubmit(e)
+    }, [])
     function handleSubmit(e) {
         e.preventDefault()       
         let data = {

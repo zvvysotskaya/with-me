@@ -1,11 +1,10 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'
 
 import CustomButton from '../button-custom/button-custom.component';
 
 
-const ButtonFollower = ({ posts, userPosts, arrLength }) => {
+const ButtonFollower = ({ posts, arrLength }) => {
 
     return (
         <div>

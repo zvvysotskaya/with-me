@@ -19,9 +19,7 @@ const AllPostsPage = () => {
                     Blog Posts Links
                 </div>
                 <div className="card-body">
-                    <table className='table table-responsve'>
-                        {val.map((post) => <CardAllPosts key={post._id} post={post} />)}
-                    </table>
+                    {val.map((post) => <CardAllPosts key={post._id} post={post} />)}                    
                 </div>
             </div>
         </div>

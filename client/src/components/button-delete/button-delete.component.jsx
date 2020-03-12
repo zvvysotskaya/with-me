@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import DOMPurify from 'dompurify';
@@ -12,6 +12,14 @@ const ButtonDelete = ({ post,history }) => {
             .then(res => res.text())
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
+    }, [])
+    useEffect((e) => {
+        if (e == undefined) {
+            return
+        }
+        handleDelete(e)
+        return () => handleDelete()
+
     }, [])
     function handleDelete(e) {
         e.preventDefault()

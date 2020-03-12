@@ -29,14 +29,13 @@ function App() {
               <Route exact path='/' component={HomePage} />
               <Route exact path='/login-page' component={LoginPage} />
               <Route exact path='/api/login-user' component={LoginPageAPI} />
-              <PrivateRoute exact path='/api/create-post-page' component={CreatePostPageAPI} />
-
+              <Route exact path='/api/create-post-page' component={CreatePostPageAPI} />
               <Route exact path='/sign-up-page' component={SignUpPage} />
               <Route exact path='/home-dashboard' component={HomeDashboardPage} />
-              <PrivateRoute exact path='/create-post-page' component={CreatePostPage} />
+              <Route exact path='/create-post-page' component={CreatePostPage} />
               <Route path='/singlePost/:id' component={SinglePostScreenPage} />
               <Route path='/profile/:username' component={ProfilePage} />              
-              <PrivateRoute path='/post/:id/edit' component={EditPostPage} />
+              <Route path='/post/:id/edit' component={EditPostPage} />
               <Route exact path='/search-page' component={SearchPage} />
               <Route path='/followers-page/:username/follower' component={FollowersPage} />
               <Route path='/following-page/:username/following' component={FollowingPage} />

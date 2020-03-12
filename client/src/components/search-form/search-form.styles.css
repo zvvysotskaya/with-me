@@ -1,7 +1,6 @@
 .spinner-invisible {
-    position: fixed;
-    top:35%;
-   left:40%;
-  
-  
+    position: relative;
+    top:40%;
+    left:45%;
+    background: white;
 }

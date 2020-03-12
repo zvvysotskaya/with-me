@@ -5,11 +5,11 @@ import CardEmptyFeed from '../card-empty-feed/card-empty-feed.component';
 const DashboardFeeds = ({ filtered, allFollowing }) => (
    
         <div>
-            <div class="card">
-                <div class="card-header bg-dark text-light text-center">
+            <div className="card">
+                <div className="card-header bg-dark text-light text-center">
                     The Feeds from Those You are Following
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                     {
                         (allFollowing.length === 0 && allFollowing == null) ?
                             (filtered == null ? '' :

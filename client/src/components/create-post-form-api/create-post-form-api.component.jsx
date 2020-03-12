@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import CustomButton from '../../components/button-custom/button-custom.component'
 
-
 const CreatPostFormAPI = () => {
     const [val, setVal] = useState({
         title: '',
@@ -27,9 +26,7 @@ const CreatPostFormAPI = () => {
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
-                .then(message => setMess({ msg: message }))
-            //    .then()
-            //    .then(window.location.href = '/all-posts-page')
+                .then(message => setMess({ msg: message }))            
                 .catch(err => (console.log(err)))
         }
     }

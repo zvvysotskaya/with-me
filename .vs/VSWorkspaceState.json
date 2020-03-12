@@ -2,15 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\client",
-    "\\client\\public",
     "\\client\\src",
-    "\\client\\src\\components\\create-post-form-api",
-    "\\client\\src\\components\\cretae-post-form",
-    "\\client\\src\\components\\search-form",
-    "\\client\\src\\img",
-    "\\client\\src\\pages\\profile",
-    "\\Local settings (.vs)"
+    "\\client\\src\\components",
+    "\\client\\src\\components\\button-add-follow",
+    "\\client\\src\\components\\button-delete-follow",
+    "\\client\\src\\components\\card-single-post",
+    "\\client\\src\\pages"
   ],
-  "SelectedNode": "\\client\\src\\img",
+  "SelectedNode": "\\client\\src\\App.css",
   "PreviewInSolutionExplorer": false
 }

@@ -15,7 +15,6 @@ const LoginPage = ({ history }) => {
     })
     function redir() {
         if (mess.message === 'Congrats!') {
-            localStorage.setItem('user', JSON.stringify(mess.message))
             window.location ='/home-dashboard'
         } 
     }
@@ -27,7 +26,7 @@ const LoginPage = ({ history }) => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
-
+   
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
@@ -45,8 +44,16 @@ const LoginPage = ({ history }) => {
             })
                 .then(res => res.text())
                 .then(message => setMess({ message: message }))
+                .then(() => history.push('/home-dashboard'))
                 .catch(err => (console.log(err)))
             }
+    }
+    
+    function reset() {
+        setVal({
+            email: '',
+            password: ''
+        })
     }
   //  console.log('CSRF****: ' + csrfSt)
       return (
@@ -65,7 +72,7 @@ const LoginPage = ({ history }) => {
                             <div className='form-group'>
                                 <label>Email:</label>
                                 <input
-                                    type='text'
+                                    type='email'
                                     className="form-control"
                                     name='email'
                                     placeholder='email'
@@ -76,7 +83,7 @@ const LoginPage = ({ history }) => {
                             <div className='form-group'>
                                 <label>Password:</label>
                                 <input
-                                    type='text'
+                                    type='password'
                                     className="form-control"
                                     name='password'
                                     placeholder='Enter Your Password'
@@ -86,9 +93,10 @@ const LoginPage = ({ history }) => {
                               </div>
                               < input type='hidden' name="_csrf" value={csrfSt.toString()} />
 
-                            <button type="submit" className="btn btn-lg btn-danger" onClick={handleSubmit}>Login</button>&nbsp;
-                        <button type='submit' onClick={redir()} className="btn btn-lg btn-danger">Reset</button>
-                        </form>
+                            <button type="submit" className="btn btn-block btn-danger " onClick={handleSubmit}>Login</button>
+                        
+                          </form>
+                          <button type='text' onClick={reset} className="btn btn-block btn-info mt-2">Reset</button>
                         <p className='mt-2'> do not have an account?</p>
                         <CustomButton blueBtn onClick={()=>history.push('/sign-up-page')}>Sign Up</CustomButton>
                     </div>

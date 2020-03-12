@@ -5,7 +5,7 @@ import DOMPurify from 'dompurify'
 import { ReactComponent as SearchIconBlue } from '../../img/search-blue.svg';
 
 import './search-form.styles.css'
-import CardAllPosts from '../card-all-posts/card-all-posts.component';
+import CardSearchTable from '../card-search-table/card-search-table.component';
 
 const SearchForm = () => {
     const [val, setVal] = useState({
@@ -49,8 +49,7 @@ const SearchForm = () => {
         }
         axios.post('/search', data)
             .then(res => {
-               // console.log(res)
-                renderResults(res.data)
+                return renderResults(res.data)
             } ) 
             .catch(err=>console.log('Hello, request failed.'+err)
         )
@@ -84,17 +83,19 @@ const SearchForm = () => {
         let head = document.createElement('thead')
         head.className = 'thead-dark'
         let trow = document.createElement('tr')
-        let thh = document.createElement('th')
-        let txt = document.createTextNode('Search results: '+ (result.length > 1 ? result.length + ' items' : '1 item'))
+        let thh = document.createElement('th')        
+        let txt = document.createTextNode('Search results: ' + (result.length > 1 ? result.length + ' items' : '1 item'))
         thh.appendChild(txt)
         document.getElementById('myTb').appendChild(head).appendChild(trow).appendChild(thh)
     }
     function removeTableThead() {
         document.getElementById('myTb').deleteTHead()
     }
+    
     return (
+        
         <div>
-            <div className="input-group flex-nowrap mb-4" id="focuss">
+            <div className="input-group flex-nowrap mt-3" id="focuss">
                 <input type="text"
                     className="form-control"
                     name='searchTerm'
@@ -112,14 +113,16 @@ const SearchForm = () => {
                     <span className="input-group-text" id="addon-wrapping"><SearchIconBlue /></span>
                 </div>
             </div>
-            <div className="spinner-invisible mt-4">
-                <table className="table table-striped table-bordered table-responsve" id="myTb">
+            <div className="spinner-invisible mt-4 text-center">
+            </div>
+            <div>
+                <table className="table table-bordered table-responsve" id="myTb">
                     {
-                        (search.length !== 0) ? (search.map(post => (<CardAllPosts key={post._id} post={post} />))) : ''
+                        (search.length !== 0) ? (search.map(post => (<CardSearchTable key={post._id} post={post} />))) : ''
                     }
                 </table>
             </div>
-        </div>
+        </div>       
         )
 }
 export default SearchForm;

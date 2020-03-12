@@ -25,29 +25,41 @@ module.exports = function (app) {
         if (err.code !== 'EBADCSRFTOKEN') return next(err)
         res.send('Cross site request forgery detected.')
     })
-     
+
     app.post('/post-post', protect, function (req, res) {
-        const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
-        const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })        
-        let _id = ObjectID(req.session.user._id)
-        if (req.body.title === '') {
-            res.send('You must provide a title.')
-            return
+        try {
+            const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
+            const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
+
+            let _id = ObjectID(req.session.user._id)
+            console.log("*********** _id: " + _id)
+            if (_id == undefined) {
+
+                res.send('You must be loggedin!')
+                return
+            }
+            if (req.body.title === '') {
+                res.send('You must provide a title.')
+                return
+            }
+            if (req.body.body === '') {
+                res.send('You must provide a post content.')
+                return
+            }
+            let data = {
+                title: safeTitle.trim(),
+                body: safeBody.trim(),
+                dateCreated: new Date(),
+                author: _id
+            }
+            db.collection('posts').insertOne(data)
+                .then(() => (res.send('The post is created')))
+                .catch((err) => console.log(err))
+        } catch {
+            res.send("Sorry, you must be loggedin.")
         }
-        if (req.body.body === '') {
-            res.send('You must provide a post content.')
-            return
-        }
-        let data = {
-            title: safeTitle.trim(),
-            body: safeBody.trim(),
-            dateCreated: new Date(),
-            author: _id
-        }
-        db.collection('posts').insertOne(data)
-            .then(() => (res.send('The post is created')))
-            .catch((err) => console.log(err))  
     })
+
     app.get('/allPosts', function (req, res) {
         let myAggr = [
             { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'authorDocument' } },
@@ -73,20 +85,24 @@ module.exports = function (app) {
             .catch(err=>console.log(err))
     })
     app.post('/edit-post', protect, function (req, res) {
-        const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
-        const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
-        if (req.body.title === '') {
-            res.send('You must provide a title.')
-            return
-        }
-        if (req.body.body === '') {
-            res.send('You must provide a post content.')
-            return
-        }
+        try {
+            const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
+            const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
+            if (req.body.title === '') {
+                res.send('You must provide a title.')
+                return
+            }
+            if (req.body.body === '') {
+                res.send('You must provide a post content.')
+                return
+            }
             db.collection('posts')
                 .findOneAndUpdate({ _id: new mongodb.ObjectId(req.body.id) }, { $set: { title: safeTitle.trim(), body: safeBody.trim() } })
-                .then(()=>res.send('The post updated successfully!'))
+                .then(() => res.send('The post updated successfully!'))
                 .catch(err => console.log(err))
+        } catch{
+            res.send("You cannot edit the post. It is private.")
+        }
     })
     app.post('/delete-post', protect, function (req, res) {
         db.collection('posts')

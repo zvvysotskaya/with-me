@@ -6,8 +6,11 @@ const CustomButton = ({ children,blueBtn, redBtn, yellowBtn,...otherProps}) => {
     return (<div>
         <button
             className={`
+            btn            
+            btn-sm-block
+            btn-xs-block
             customBtn
-        ${blueBtn ? 'blueBtn' : ''}
+        ${blueBtn ? 'blueBtn ' : ''}
         ${redBtn ? 'redBtn' : ''}
         ${yellowBtn ? 'yellowBtn' : ''}
         `}

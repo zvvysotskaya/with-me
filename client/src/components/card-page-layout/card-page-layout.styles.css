@@ -17,3 +17,10 @@
 .bgLightBlue {
     background: #e6f2ff;
 }
+
+@media (max-width:778px){
+    .card_page_layout {
+        padding: 1.5rem;
+        margin-top: .5rem;
+    }
+}

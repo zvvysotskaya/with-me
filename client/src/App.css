@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+html {
+    height: 100%;
+}
 body {
     height: 100%;
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#deefff+11,98bede+53 */
@@ -10,7 +12,9 @@ body {
     background: -webkit-linear-gradient(top, rgba(222,239,255,1) 11%,rgba(152,190,222,1) 53%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(222,239,255,1) 11%,rgba(152,190,222,1) 53%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
-    /*background-size: cover;*/
+    background-repeat: no-repeat;
+    
+    background-attachment: fixed;
 }
 
 .img_avatar_large {
