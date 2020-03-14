@@ -1,8 +1,6 @@
-import React, { useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
 
-
-import './chat-display-message-from-server.styles.css'
+import './chat-display-message-from-server.styles.css';
 const md5 = require('md5');
 
 const ChatDisplayMessageFromServer = ({ username, useremail, data }) => {

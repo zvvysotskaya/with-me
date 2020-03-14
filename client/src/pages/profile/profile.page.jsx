@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import CardProfile from '../../components/card-profile/card-profile.component';
@@ -20,16 +20,14 @@ const ProfilePage = ({ post, ...props }) => {
     const [loggedIn, setLoggedIn] = useState({
         msg: ''
     })
-    const [allFollowing, setAllFollowing] = useState([])
-    const [followingCount, setFollowingCount] = useState([])
-    const [followersCount, setFollowersCount] = useState([])
+    const [allFollowing, setAllFollowing] = useState([])    
+    
     useEffect(() => {      
         fetch('/allPosts')
             .then(res => (res.json()))
             .then(res => setVal(res))
             .catch((error) => (console.log(error)));   
     }, [])
-
     
     useEffect(() => {        
         fetch('/bbb')//check if anyone is loggedin
@@ -37,7 +35,6 @@ const ProfilePage = ({ post, ...props }) => {
             .then(res => setMess({ msg: res }))
             .catch(err => console.log(err))    
     }, [mess.msg])
-
     
     useEffect(() => {     
         fetch('/loggedUserId')//find logged userId from session
@@ -50,9 +47,6 @@ const ProfilePage = ({ post, ...props }) => {
     let author_id = filtered.map(el => el.author._id)//this is the profile owner's id
 
     //find a count of the following and the followers to add it to the following and followers buttons
-    //1. following count
-
-    
     useEffect(() => {
         axios.post('/allFollowingButton', { username: userPosts })
             .then(res => setAllFollowing(res.data))
@@ -70,7 +64,6 @@ const ProfilePage = ({ post, ...props }) => {
                 return el.follower
             }
         })
-
         if (arr.length > 0) {
             followingAccount = arr.find(el => {
                 if (el != undefined && author_id[0] != undefined) {
@@ -83,35 +76,30 @@ const ProfilePage = ({ post, ...props }) => {
     } else {
         console.log('')
     }
-
     //find a count of the following and the followers to add numbers to following and followers buttons
     //1. count followers
-
+    const [followersCount, setFollowersCount] = useState([])
     useEffect(() => {
-
+        if (!userPosts) {
+            return
+        }
         axios.post('/allFollowers', { username: userPosts })
             .then(res => setFollowersCount(res.data))
             .catch(err => console.log(err))
-     //   return () => followersCount
+        return () => followersCount
     }, [])
-
-    //  let arrFollowers = followersCount.map(el => el.authorId)
-    let arrFollowers
-    if (followersCount.length > 0 && followersCount != 0 && followersCount != null) {
-        arrFollowers = followersCount.map(el => {
-            if (el == undefined && el == null) {
-                console.log('')
-                return
-            } else {
-                return el.authorId
-            }
-        })
-    } else {
-        followersCount[0] = 0
+    useEffect(() => {
+        countFollowers()
+        return () => countFollowers()
+    }, [countFollowers])
+    function countFollowers() {
+        if (followersCount == undefined || followersCount === 0) {
+            return
+        }
+        return followersCount.length
     }
-    
     //1. count following
-    
+    const [followingCount, setFollowingCount] = useState([])
     useEffect(() => {
             if (!userPosts) {
                 console.log('ERROR!!!!!')
@@ -123,31 +111,19 @@ const ProfilePage = ({ post, ...props }) => {
             }
        return () => followingCount;
     }, [])
-    console.log('following count: ' + followingCount + ' length ' + followingCount.length)
-    console.log('follower count: ' + followersCount + ' followers length: ' + followersCount.length)
-    let arrFollowing
-    if (followingCount == null || followingCount === 0) {
-        return 
-    }
-    if (followingCount.length > 1 && followingCount != undefined && followingCount != null) {
-        arrFollowing = followingCount.map(el => {
-            if (el == undefined && el == null) {
-                return
-            } else {
-                return el.follower
-            }
-        })
-    } else {
-        followingCount[0] = 0
-    }
     
-    function count(array) {
-        if (array == null) {
+    useEffect(() => {
+        countFollowing()
+        return () => countFollowing()
+    }, [countFollowing])
+
+    function countFollowing() {       
+        if (followingCount == undefined || followingCount == 0) {
             return
-        }
-        return array.length
+        }        
+        return followingCount.length
     }
-  
+          
     function setButtonsFollow() {
        
             if (mess.msg === 'hello, there' && author_id[0] !== loggedIn.msg && author_id[0] !== followingAccount) {                
@@ -157,8 +133,7 @@ const ProfilePage = ({ post, ...props }) => {
                     return filtered.map(posts => (<ButtonDeleteFollow key={posts._id} posts={posts} />))[0]                
             } else {                    
                 return ''                
-            }
-        
+            }        
     }
     
     return (
@@ -176,9 +151,9 @@ const ProfilePage = ({ post, ...props }) => {
                     </div>
                 </div>
                 <div className="card-body text-center">                    
-                    <div className='d-md-flex justify-content-center py-md-3 py-1'>
-                        {mess.msg === 'hello, there' ? (filtered.map(posts => < ButtonFollower key={posts._id + 1} posts={posts} arrLength={count(arrFollowers)} />))[0] : ''}&nbsp;&nbsp;&nbsp;
-                        {mess.msg === 'hello, there' ? (filtered.map(posts => < ButtonFollowing key={posts._id} posts={posts} arrLength={count(arrFollowing)}/>))[0] : ''}
+                        <div className='d-md-flex justify-content-center py-md-3 py-1'>
+                            {mess.msg === 'hello, there' ? (filtered.map(posts => < ButtonFollower key={posts._id + 1} posts={posts} arrLength={countFollowers()} />))[0] : ''}&nbsp;&nbsp;&nbsp;
+                        {mess.msg === 'hello, there' ? (filtered.map(posts => < ButtonFollowing key={posts._id} posts={posts} arrLength={countFollowing()}/>))[0] : ''}
                     </div>
                     <h5 className="card-title text-center text-dark">Blog Links</h5>
                     <div className='container'>
@@ -186,12 +161,12 @@ const ProfilePage = ({ post, ...props }) => {
                             <div className='col-md-10 my-md-3 my-1 text-left'>
                                 { filtered.map(posts => ( <CardProfile key={ posts._id } posts={ posts } /> ) ) }
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </CardPageLayout>
+        </CardPageLayout>
     )    
 }
 export default ProfilePage;

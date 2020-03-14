@@ -23,7 +23,7 @@ const ButtonDeleteFollow = ({ posts }) => {
             return
         }
         handleDelete(e)
-        return () => handleDelete(e)
+        return (e) => handleDelete(e)
     },[])
     function handleDelete(e) {
         e.preventDefault()

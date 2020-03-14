@@ -1,5 +1,5 @@
 const sanitizeHTML = require('sanitize-html')
-const md5 = require('md5');
+
 //tokens
 const csrf = require('csurf')
 const protect = csrf()
@@ -60,6 +60,36 @@ module.exports = function (app) {
         }
     })
 
+    app.post('/post-comments', protect, function (req, res) {
+        try {
+            const safeComment = sanitizeHTML(req.body.comment, { allowedTags: [], allowedAttributes: {} })
+
+            let _id = ObjectID(req.session.user._id)
+            console.log("*********** _id: " + _id)
+            if (_id == undefined) {
+
+                res.send('You must be loggedin!')
+                return
+            }
+
+            if (req.body.comment == undefined) {
+                res.send('You must provide a content.')
+                return
+            }
+            let data = { 
+                postId:req.body.postId,
+                comment: safeComment.trim(),
+                dateCreated: new Date(),
+                commenter: _id
+            }
+            db.collection('comments').insertOne(data)
+                .then(() => (res.send('The comment is posted.')))
+                .catch((err) => console.log(err))
+        } catch {
+            res.send("Sorry, you must be loggedin.")
+        }
+    })
+
     app.get('/allPosts', function (req, res) {
         let myAggr = [
             { $lookup: { from: 'users', localField: 'author', foreignField: '_id', as: 'authorDocument' } },
@@ -86,6 +116,13 @@ module.exports = function (app) {
     })
     app.post('/edit-post', protect, function (req, res) {
         try {
+            let _id = ObjectID(req.session.user._id)            
+            if (_id == undefined) {
+
+                res.send('You must be loggedin!')
+                return
+            }
+
             const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
             const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
             if (req.body.title === '') {
@@ -111,7 +148,7 @@ module.exports = function (app) {
             .then(res.send(`The post ${req.body.id} successfully deleted.`))
         .catch(err=>console.log(err ))
     })
-    app.post('/search', protect, function (req, res) {
+    app.post('/search', function (req, res) {
         console.log('search is working')
         let searchTerm = req.body.searchTerm
         let myAggr
@@ -121,7 +158,7 @@ module.exports = function (app) {
                 { $sort: { score: {$meta:'textScore'}}}
             ]
         } else {
-            res.send('We cannot make this aperation.')
+            res.send('We cannot make this operation.')
         }
         db.collection('posts')
                 .aggregate(myAggr)
@@ -318,5 +355,11 @@ module.exports = function (app) {
                 }
             })
        // }
+    })
+    app.get('/allComments', function (req, res) {
+        db.collection('comments').find({})
+            .toArray()
+            .then(result => res.send(result))
+        .catch(err=>console.log(err))
     })
 }

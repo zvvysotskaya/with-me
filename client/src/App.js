@@ -18,6 +18,7 @@ import FollowingPage from './pages/following/following.page';
 import ChatPage from './pages/chat-page/chat-page.page';
 import LoginPageAPI from './pages/login-api/login-api.page'
 import CreatePostPageAPI from './pages/create-post-api/create-post-api.page';
+import AddCommentsPage from './pages/add-comments/add-comments.page';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
               <Route path='/followers-page/:username/follower' component={FollowersPage} />
               <Route path='/following-page/:username/following' component={FollowingPage} />
               <Route exact path='/chat-page' component={ChatPage} />
+              <Route exact path='/add-comments-page' component={AddCommentsPage} />
            
           </Switch>
           

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomButton from '../../components/button-custom/button-custom.component'
 import { ReactComponent as AddUserIcon } from '../../img/user-plus.svg';
@@ -32,13 +32,10 @@ const ButtonAddFollow = ({ posts, ...props }) => {
             authorId: posts.author._id,
             _csrf: csrfSt.toString()
         }
-        
-            axios.post('/follow', data)
-                .then(res => setMessage({ messageFollow: res.data }))
-                .catch(err => console.log(err))
-        
-    }
-    
+        axios.post('/follow', data)
+            .then(res => setMessage({ messageFollow: res.data }))
+            .catch(err => console.log(err))        
+    }    
 
     return (
         <div>

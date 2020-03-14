@@ -44,11 +44,14 @@ const LoginPage = ({ history }) => {
             })
                 .then(res => res.text())
                 .then(message => setMess({ message: message }))
-                .then(() => history.push('/home-dashboard'))
+                .then(window.location.href = '/home-dashboard')
                 .catch(err => (console.log(err)))
             }
     }
-    
+    useEffect(() => {
+        reset()
+        return () => reset()
+    }, [])
     function reset() {
         setVal({
             email: '',

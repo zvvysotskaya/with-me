@@ -5,7 +5,6 @@ import CustomButton from '../../components/button-custom/button-custom.component
 
 const EditPostForm = ({ post }) => {
     
-    // window.location.reload();
     const [val, setVal] = useState({
         title: post.title,
         body: post.body
@@ -13,6 +12,7 @@ const EditPostForm = ({ post }) => {
     const [mess, setMess] = useState({
         msg: ''
     })
+
     const [csrfSt, setCsrfSt] = useState('')
     useEffect(() => {
         fetch('/getCSRF')
@@ -20,6 +20,7 @@ const EditPostForm = ({ post }) => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
+
     useEffect((e) => {
         if (e == undefined) {
             return
@@ -27,6 +28,7 @@ const EditPostForm = ({ post }) => {
         handleSubmit(e)
         return () => handleSubmit(e)
     }, [])
+
     function handleSubmit(e) {
         e.preventDefault()       
         let data = {
