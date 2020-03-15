@@ -1,18 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import ButtonCustom from '../button-custom/button-custom.component'
 
-const ButtonAddComments = ({ post, btnClick }) => {
-    console.log('BUTTON: ' + JSON.stringify(post))
+import ButtonCustom from '../button-custom/button-custom.component';
+
+const ButtonAddComments = ({ btnClick }) => {
+    
     function handleClick(e) {
             e.preventDefault()
             btnClick()
         }
-    return (<div>
-       
+    return (
+        <div>
             <ButtonCustom onClick={handleClick}>Add Comments</ButtonCustom>
-       
-    </div>
+        </div>
     )
 }
-export default ButtonAddComments
+export default ButtonAddComments;

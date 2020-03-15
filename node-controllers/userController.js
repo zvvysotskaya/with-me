@@ -104,6 +104,12 @@ module.exports = function (app) {
             res.send(req.session.user._id)
         }
     })
-
+    app.get('/allUsers', function (req, res) {
+        db.collection('users')
+            .find({})
+            .toArray()
+            .then(result=>res.send(result))
+        .catch(er=>console.log(er))
+    })
 
 }

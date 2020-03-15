@@ -6,7 +6,7 @@ import ButtonEdit from '../../components/button-edit/button-edit.component';
 import ButtonDelete from '../../components/button-delete/button-delete.component'
 import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
 
-const SinglePostScreenPage = ({ post, ...props }) => {
+const SinglePostScreenPage = ({ post,...props }) => {
     let posts = props.match.params.id
     const [val, setVal] = useState([])
     const [userId, setUserId] = useState({
@@ -31,24 +31,17 @@ const SinglePostScreenPage = ({ post, ...props }) => {
     return (
         <div>
             <CardPageLayout>
-            <div className='container'>
-                <div className='row '>
-                    <div className='col my-3 d-flex justify-content-end'>
-                        
-                        {userIdPost == userIdSessionLogged ? filtered.map((post) => (<ButtonEdit key={post._id} post={post} />)) : '' }&nbsp;&nbsp;&nbsp;&nbsp;
-                        {userIdPost == userIdSessionLogged ? filtered.map((post) => (< ButtonDelete key={post._id} post={post}/>)) : ''}
+                <div className='container'>
+                    <div className='row '>
+                        <div className='col my-3 d-flex justify-content-end'>                        
+                            {userIdPost == userIdSessionLogged ? filtered.map((post) => (<ButtonEdit key={post._id} post={post} />)) : '' }&nbsp;&nbsp;&nbsp;&nbsp;
+                            {userIdPost == userIdSessionLogged ? filtered.map((post) => (< ButtonDelete key={post._id} post={post}/>)) : ''}
+                        </div>
                     </div>
-                </div>
-            </div>
-                {filtered.map(post => (<CardSinglePost key={post._id} post={post} singlePostID={posts}/>))}
-                
+                 </div>
+                {filtered.map(post => (<CardSinglePost key={post._id} post={post} singlePostID={posts}/>))}                
             </CardPageLayout>
-
-
-
-
-            
-
-        </div>)
+        </div>
+    )
 }
 export default SinglePostScreenPage

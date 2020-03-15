@@ -77,7 +77,7 @@ module.exports = function (app) {
                 return
             }
             let data = { 
-                postId:req.body.postId,
+                postId:ObjectID(req.body.postId),
                 comment: safeComment.trim(),
                 dateCreated: new Date(),
                 commenter: _id
@@ -144,9 +144,15 @@ module.exports = function (app) {
     app.post('/delete-post', protect, function (req, res) {
         db.collection('posts')
         .deleteOne({ _id: new mongodb.ObjectId(req.body.id) },
-            console.log('deleted!! (came from node.js id: ' + req.body.id + ')'))
+            console.log('deleted ' + req.body.id + ')'))
             .then(res.send(`The post ${req.body.id} successfully deleted.`))
-        .catch(err=>console.log(err ))
+            .catch(err => console.log(err))
+
+        db.collection('comments')
+            .deleteMany({ postId: ObjectID(req.body.id) })
+            .then(() => console.log('Deleted comments too.'))
+            .catch(er => console.log(er))
+
     })
     app.post('/search', function (req, res) {
         console.log('search is working')
