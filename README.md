@@ -14,7 +14,7 @@ First, clone or download repo
 *  ` npm install`
 *  ` cd client `
 *  ` npm install `
-*Finally, create .env file and add your credentials for mongodb and JWT
+* Finally, create .env file and add your credentials for mongodb and JWT
 * REACT_APP_DB_URL=
 * REACT_APP_JWTSECRET=
 * PORT=
