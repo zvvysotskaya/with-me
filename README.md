@@ -9,7 +9,7 @@ Backend: Node.js/Express
 ## **Getting started**
 
 First, clone or download repo.: 
-> `<addr>` git clone https://github.com/zvvysotskaya/with-me.git
+> `<addr>` git clone https://github.com/zvvysotskaya/with-me.git`<addr>` 
 > `<addr>` cd with-me 
 > npm install
 > cd client 
