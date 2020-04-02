@@ -9,16 +9,16 @@ Backend: Node.js/Express
 ## **Getting started**
 
 First, clone or download repo.: 
-* > ` git clone https://github.com/zvvysotskaya/with-me.git `
-* > ` cd with-me `
-* > npm install
-* > cd client 
-* > npm install
+*  ` git clone https://github.com/zvvysotskaya/with-me.git `
+*  ` cd with-me `
+*  ` npm install`
+*  ` cd client `
+*  ` npm install `
 Finally, create .env file and add your credentials for mongodb and JWT:
-> REACT_APP_DB_URL=
-> REACT_APP_JWTSECRET=
-> PORT=
+* REACT_APP_DB_URL=
+* REACT_APP_JWTSECRET=
+* PORT=
 
 ## **Usage**
 
-yarn dev
+* yarn dev
