@@ -28,8 +28,7 @@ const FollowersPage = ({ post, ...props }) => {
     }, [])
 
     useEffect(() => {
-        axios.post('/allFollowers', { username: userPosts, _csrf: csrfSt.toString() })
-         //   .then(res=>console.log(res.data))
+        axios.post('/allFollowers', { username: userPosts, _csrf: csrfSt.toString() })         
             .then(res => setAllFollowers(res.data))
             .catch(err => console.log(err))
     }, [])

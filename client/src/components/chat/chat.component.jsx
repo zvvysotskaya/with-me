@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import io from 'socket.io-client'
+import React, { useState } from 'react';
+import io from 'socket.io-client';
 
-import './chat.styles.css'
-import { ReactComponent as ChatIcon } from '../../img/chat.svg'
-import ChatPage from '../../pages/chat-page/chat-page.page'
+import './chat.styles.css';
+import { ReactComponent as ChatIcon } from '../../img/chat.svg';
+import ChatPage from '../../pages/chat-page/chat-page.page';
 
 const Chat = () => {
     let socket = io()
@@ -17,7 +17,6 @@ const Chat = () => {
     function rem() {
         setSt('')
       //  socket.close();
-      
     } 
     
     function showChat() {
@@ -37,4 +36,4 @@ const Chat = () => {
         </div>
         )
 }
-export default Chat
+export default Chat;

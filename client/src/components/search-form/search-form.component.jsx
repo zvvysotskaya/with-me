@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import DOMPurify from 'dompurify'
 
 import { ReactComponent as SearchIconBlue } from '../../img/search-blue.svg';
-
-import './search-form.styles.css'
+import './search-form.styles.css';
 import CardSearchTable from '../card-search-table/card-search-table.component';
 
 const SearchForm = () => {
@@ -16,6 +14,7 @@ const SearchForm = () => {
     useEffect(() => {
         setTimeout(() => document.getElementById('inp').focus(), 90)
     }, [])
+
     function keyPressHandler(e) {
         e.preventDefault()
         clearTimeout(typingWaitTimer)
@@ -42,6 +41,7 @@ const SearchForm = () => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
+
     function sendRequest() {
         let data = {
             searchTerm: val.searchTerm,
@@ -56,29 +56,32 @@ const SearchForm = () => {
     }
     
     function renderResults(posts) {
-        if (posts.length !== 0) {
-            let purifiedPosts = DOMPurify.sanitize(posts)
+        if (posts.length !== 0) {            
             setSearch(posts)
             removeSpinner()
             removeTableThead()
             addTableThead(posts)
         }
     }
+
     function showSpinner() {
         let element = document.querySelector('div.spinner-invisible')
         element.classList.add('spinner-border')
         element.classList.add('spinner-border-lg')
         element.classList.add('text-primary')
     }
+
     function removeSpinner() {
         let element = document.querySelector('div.spinner-invisible')
         element.classList.remove('spinner-border')
         element.classList.remove('spinner-border-lg')
         element.classList.remove('text-primary')
-    }    
+    } 
+    
     function removeResultArea() {
         setSearch([])
     }
+
     function addTableThead(result) {
         let head = document.createElement('thead')
         head.className = 'thead-dark'
@@ -88,12 +91,12 @@ const SearchForm = () => {
         thh.appendChild(txt)
         document.getElementById('myTb').appendChild(head).appendChild(trow).appendChild(thh)
     }
+
     function removeTableThead() {
         document.getElementById('myTb').deleteTHead()
     }
     
-    return (
-        
+    return (        
         <div>
             <div className="input-group flex-nowrap mt-3" id="focuss">
                 <input type="text"

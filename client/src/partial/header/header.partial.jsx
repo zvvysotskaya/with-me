@@ -5,15 +5,13 @@ import { ReactComponent as HomeIcon } from '../../img/home3.svg';
 import { ReactComponent as SearchIcon } from '../../img/search.svg';
 import HeaderLogin from '../../components/header-login/header-login.component';
 import HeaderLogout from '../../components/header-logout/header-logout.component';
-import Avatar from '../../components/avatar/avatar.component'
+import Avatar from '../../components/avatar/avatar.component';
 import Chat from '../../components/chat/chat.component';
-import Navigation from'../../components/navigation/navigation.component'
+import Navigation from '../../components/navigation/navigation.component';
+import './header.styles.css';
 
+const Header = ({ history }) => {
 
-import './header.styles.css'
-
-
-const Header = ({ history}) => {
     const [mess, setMess] = useState({
         message: ''
     })
@@ -26,10 +24,12 @@ const Header = ({ history}) => {
             .then(message => setMess({ message: message }))            
             .catch(err => (console.log(err)))
     }, [])
+
     function search(e) {
         e.preventDefault()
         setTimeout(()=>history.push('/search-page'),50)
     }
+
     useEffect(() => {
         fetch('/aaa')
             .then(res => res.text())

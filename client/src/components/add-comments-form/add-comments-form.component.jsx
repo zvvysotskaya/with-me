@@ -46,6 +46,7 @@ const AddCommentstForm = ({ post , hideTextArea}) => {
             })
                 .then(res => res.text())
                 .then(message => setMess({ msg: message }))
+                .then(() => window.location.reload())
                 .catch(err => (console.log(err)))
         }
     }

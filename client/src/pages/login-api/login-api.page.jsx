@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { withRouter } from 'react-router-dom';
-
 
 import CustomButton from '../../components/button-custom/button-custom.component';
 
-
 const LoginPage = ({ history }) => {
+
     const [val, setVal] = useState({
         email: '',
         password: ''
@@ -38,7 +37,7 @@ const LoginPage = ({ history }) => {
                 .catch(err => (console.log(err)))
         }
     }
-    //  console.log('CSRF****: ' + csrfSt)
+   
     return (
         <div>
             <div className='container'>

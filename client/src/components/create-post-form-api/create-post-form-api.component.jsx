@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import CustomButton from '../../components/button-custom/button-custom.component'
+import CustomButton from '../../components/button-custom/button-custom.component';
 
 const CreatPostFormAPI = () => {
     const [val, setVal] = useState({

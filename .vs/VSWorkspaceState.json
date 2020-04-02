@@ -4,11 +4,11 @@
     "\\client",
     "\\client\\src",
     "\\client\\src\\components",
-    "\\client\\src\\components\\button-add-follow",
-    "\\client\\src\\components\\button-delete-follow",
-    "\\client\\src\\components\\card-single-post",
-    "\\client\\src\\pages"
+    "\\client\\src\\components\\chat-form",
+    "\\client\\src\\pages",
+    "\\client\\src\\pages\\sign-up",
+    "\\node-controllers"
   ],
-  "SelectedNode": "\\client\\src\\App.css",
+  "SelectedNode": "\\node-controllers\\userController.js",
   "PreviewInSolutionExplorer": false
 }

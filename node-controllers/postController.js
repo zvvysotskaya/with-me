@@ -18,8 +18,7 @@ module.exports = function (app) {
 
     app.get('/getCSRF', protect, function (req, res) {
         let token = req.csrfToken()
-        res.send(token)
-        console.log('CSRF token***: ' + token)
+        res.send(token)        
     })
     app.use(function (err, req, res, next) {
         if (err.code !== 'EBADCSRFTOKEN') return next(err)
@@ -30,11 +29,8 @@ module.exports = function (app) {
         try {
             const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
             const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
-
-            let _id = ObjectID(req.session.user._id)
-            console.log("*********** _id: " + _id)
+            let _id = ObjectID(req.session.user._id)            
             if (_id == undefined) {
-
                 res.send('You must be loggedin!')
                 return
             }
@@ -63,15 +59,11 @@ module.exports = function (app) {
     app.post('/post-comments', protect, function (req, res) {
         try {
             const safeComment = sanitizeHTML(req.body.comment, { allowedTags: [], allowedAttributes: {} })
-
-            let _id = ObjectID(req.session.user._id)
-            console.log("*********** _id: " + _id)
+            let _id = ObjectID(req.session.user._id)            
             if (_id == undefined) {
-
                 res.send('You must be loggedin!')
                 return
             }
-
             if (req.body.comment == undefined) {
                 res.send('You must provide a content.')
                 return
@@ -118,11 +110,9 @@ module.exports = function (app) {
         try {
             let _id = ObjectID(req.session.user._id)            
             if (_id == undefined) {
-
                 res.send('You must be loggedin!')
                 return
             }
-
             const safeTitle = sanitizeHTML(req.body.title, { allowedTags: [], allowedAttributes: {} })
             const safeBody = sanitizeHTML(req.body.body, { allowedTags: [], allowedAttributes: {} })
             if (req.body.title === '') {
@@ -144,18 +134,16 @@ module.exports = function (app) {
     app.post('/delete-post', protect, function (req, res) {
         db.collection('posts')
         .deleteOne({ _id: new mongodb.ObjectId(req.body.id) },
-            console.log('deleted ' + req.body.id + ')'))
+            console.log('deleted'))
             .then(res.send(`The post ${req.body.id} successfully deleted.`))
             .catch(err => console.log(err))
-
         db.collection('comments')
             .deleteMany({ postId: ObjectID(req.body.id) })
-            .then(() => console.log('Deleted comments too.'))
+            .then(() => console.log(''))
             .catch(er => console.log(er))
 
     })
-    app.post('/search', function (req, res) {
-        console.log('search is working')
+    app.post('/search', function (req, res) {        
         let searchTerm = req.body.searchTerm
         let myAggr
         if (typeof searchTerm == 'string') {
@@ -185,8 +173,7 @@ module.exports = function (app) {
             followedUsername=''
         }
         db.collection('users').findOne({ username: followedUsername }, (err, attemptedUsename) => {
-           if (err) throw err;
-            console.log('att: ' + attemptedUsename.username + ' ' + attemptedUsename._id)
+           if (err) throw err;           
             if (attemptedUsename.username) {
                 let followerSessionId = ObjectID(req.session.user._id)
                 //check if follower already follows the profile owner
@@ -225,7 +212,7 @@ module.exports = function (app) {
         let query = {
             follower: ObjectID(followerSessionId)
         }
-        console.log('follower:' + followerSessionId + 'author: ' + authorIdRequest)
+        
         db.collection('follows').find(query).toArray((err, result) => {//find the following owner id to remove from the follower account
             if (err) throw err
             let arr
@@ -243,8 +230,7 @@ module.exports = function (app) {
                 for (arr in result) {
                     txt.push(result[arr]._id)
                 }
-                //delete the owner account found by owner's _id
-                console.log('TXT: '+txt)
+                //delete the owner account found by owner's _id                
                 if (txt.length > 0) {
                     db.collection('follows')
                         .deleteOne({ _id: new mongodb.ObjectId(txt[0]) })
@@ -290,7 +276,7 @@ module.exports = function (app) {
                             if (el.userID != undefined || followingSelected[i].authorId != undefined) {
                                 return el.userID.toString() === followingSelected[i].authorId.toString()
                             } else {
-                                console.log('Not loggedin.')
+                                return
                             }
                     })                     
                         txt.push(names)
@@ -303,10 +289,8 @@ module.exports = function (app) {
     app.post('/allFollowing', function (req, res) {//this is disigned for following page only to find following but not to show and hide button 'following'
         if (req.session.user) {
             if (req.body != undefined) {
-                followingFollower(req, res, 'follower', req.body.username)
-                console.log('!!!!!!! loggedin User:' + req.body.username)
-            } else {
-                console.log('not loggedin')
+                followingFollower(req, res, 'follower', req.body.username)                
+            } else {                
                 return
             }
         }
@@ -314,13 +298,12 @@ module.exports = function (app) {
     app.post('/allFollowingButton', function (req, res) {//this is for the following button of the profile page
         if (req.session.user != undefined) {
             followingFollower(req, res, 'follower', req.session.user.username)
-        } else {
-            console.log('Not loggedin')
+        } else {            
             return
         }
     })
     app.post('/allFollowers', function (req, res) {
-      //  if (req.session.user) {
+        if (req.session.user) {
             let following = req.body.username
             let myaggr = [
                 {
@@ -360,7 +343,7 @@ module.exports = function (app) {
                     res.json(txt)
                 }
             })
-       // }
+       }
     })
     app.get('/allComments', function (req, res) {
         db.collection('comments').find({})

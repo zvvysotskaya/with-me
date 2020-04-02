@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import CardFollowingFollowers from '../../components/card-following-followers/card-following-followers.component';
 import AvatarProfile from '../../components/avatar-profile/avatar-profile.component';
 import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
-import axios from 'axios'
+import axios from 'axios';
 
 const FollowingPage = ({ post, ...props }) => {
 

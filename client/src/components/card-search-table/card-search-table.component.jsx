@@ -20,4 +20,4 @@ const CardSearchTable = ({ post }) => {
     </tbody>
     )
 }
-export default CardSearchTable
+export default CardSearchTable;

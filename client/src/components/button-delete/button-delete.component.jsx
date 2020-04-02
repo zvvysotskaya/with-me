@@ -5,7 +5,8 @@ import DOMPurify from 'dompurify';
 
 import { ReactComponent as BinIcon } from '../../img/bin2.svg';
 
-const ButtonDelete = ({ post,history }) => {
+const ButtonDelete = ({ post, history }) => {
+
     const [csrfSt, setCsrfSt] = useState('')
     useEffect(() => {
         fetch('/getCSRF')
@@ -13,14 +14,15 @@ const ButtonDelete = ({ post,history }) => {
             .then(res => setCsrfSt(res))
             .catch(err => console.log(err))
     }, [])
+
     useEffect((e) => {
         if (e == undefined) {
             return
         }
         handleDelete(e)
-        return () => handleDelete()
-
+        return () => handleDelete(e)
     }, [])
+
     function handleDelete(e) {
         e.preventDefault()
         let userInput = window.confirm(`Are you sure you want to delete the post ${DOMPurify.sanitize(post.title)}`)
@@ -32,6 +34,7 @@ const ButtonDelete = ({ post,history }) => {
                 .catch(er => console.log(er))
         }
     }
+
     return (
         <div>
             <BinIcon onClick={handleDelete} />

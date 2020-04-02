@@ -21,8 +21,7 @@ module.exports = function (app) {
   //  app.use(protect)
     app.get('/getCSRF', protect, function (req, res) {
         let token = req.csrfToken()
-        res.send(token)
-        console.log('CSRF token***: ' + token)
+        res.send(token) 
     })
     app.use(function (err, req, res, next) {
         if (err.code !== 'EBADCSRFTOKEN') return next(err)
@@ -42,15 +41,8 @@ module.exports = function (app) {
         }
         db.collection('users').insertOne(data)
     })
-    app.post('/login-user',protect, function (req, res) {
-        
-        console.log("Login Page working!!!!!!!!!!!!")
-  //      console.log('Cookies: ', req.cookies);
-        let password = req.body.password 
-        let csrfBody = req.body._csrf
-        // let csrf2 = req.csrfToken()
-        console.log('CSRF$$$$: ' + ' body: ' + csrfBody)
-     //   if (csrf2) {
+    app.post('/login-user',protect, function (req, res) {        
+        let password = req.body.password         
             db.collection('users').findOne({ email: req.body.email }, (error, attemptedUser) => {
                 if (attemptedUser && bcrypt.compareSync(password, attemptedUser.password)) {
                     req.session.user = {
@@ -59,11 +51,8 @@ module.exports = function (app) {
                         _id: ObjectID(attemptedUser._id),
                         username: attemptedUser.username
                     }
-                    // req.session.user.save()  
 
-                    if (req.session.user) {
-                        console.log('Hello')
-                    }
+                    if (req.session.user) {                    }
                     res.send('Congrats!')
                 } else {
                     res.send('Invalid pasword / email!')

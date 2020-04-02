@@ -29,7 +29,6 @@ const ChatDisplayMessageFromServer = ({ username, useremail, data }) => {
             }
         }
     }, [username, data, useremail])
-    useEffect(() => { },[])
    
     return (
         <div className='chat_log' id='chats' >

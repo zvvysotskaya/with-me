@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 
-import { ReactComponent as CloseIcon } from '../../img/cancel-circle-chat.svg'
-
-
+import { ReactComponent as CloseIcon } from '../../img/cancel-circle-chat.svg';
 
 const ButtonChatClose = ({ rem,...props }) => {
     
@@ -11,10 +9,11 @@ const ButtonChatClose = ({ rem,...props }) => {
         e.preventDefault()     
         rem()
     }
+
     return (
         <div>
             <CloseIcon onClick={cl} {...props}/>
         </div>
     )
 }
-export default ButtonChatClose
+export default ButtonChatClose;

@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import CustomButton from '../../components/button-custom/button-custom.component';
 import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
-
 import AvatarLargeImage from '../../components/avatar-large-image/avatar-large-image.component';
 import DashboardFeeds from '../../components/dashboard-feeds/dashboard-feeds.component';
 

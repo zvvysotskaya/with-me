@@ -88,10 +88,12 @@ const ProfilePage = ({ post, ...props }) => {
             .catch(err => console.log(err))
         return () => followersCount
     }, [])
+
     useEffect(() => {
         countFollowers()
         return () => countFollowers()
     }, [countFollowers])
+
     function countFollowers() {
         if (followersCount == undefined || followersCount === 0) {
             return

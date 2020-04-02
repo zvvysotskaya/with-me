@@ -5,6 +5,7 @@
     margin: 0;
     line-height: 3.5rem;
 }
+
 .home_icon {
     color: #ffffff!important;
 }
@@ -40,6 +41,7 @@
         text-decoration-style: none;
         text-decoration-line: none;
     }
+
 .search_icon {
     color: #ffffff !important;
     transition: opacity 1.5s;

@@ -6,7 +6,8 @@ import ButtonEdit from '../../components/button-edit/button-edit.component';
 import ButtonDelete from '../../components/button-delete/button-delete.component'
 import CardPageLayout from '../../components/card-page-layout/card-page-layout.component';
 
-const SinglePostScreenPage = ({ post,...props }) => {
+const SinglePostScreenPage = ({ post, ...props }) => {
+
     let posts = props.match.params.id
     const [val, setVal] = useState([])
     const [userId, setUserId] = useState({
@@ -17,17 +18,19 @@ const SinglePostScreenPage = ({ post,...props }) => {
             .then(res => (res.json()))
             .then(res => setVal(res))
             .catch((error) => (console.log(error)));
-    }, []
-    );
+    }, []);
+
     useEffect(() => {
         fetch('/loggedUserId')
             .then(res => res.text())
             .then(res => setUserId({ uId: res }))
             .catch(err => console.log(err))
     }, [])
+
     let filtered = val.filter((el) => el._id == posts)
     let userIdPost = filtered.map((el) => el.author._id)
     let userIdSessionLogged = userId.uId
+
     return (
         <div>
             <CardPageLayout>
@@ -44,4 +47,4 @@ const SinglePostScreenPage = ({ post,...props }) => {
         </div>
     )
 }
-export default SinglePostScreenPage
+export default SinglePostScreenPage;

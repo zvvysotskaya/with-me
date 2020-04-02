@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import validator from 'validator';
 
-import './sign-up.styles.css'
-
-
 const SignUp = ({ history }) => {
 
     const [csrfSt, setCsrfSt] = useState('')
@@ -21,6 +18,7 @@ const SignUp = ({ history }) => {
         password: '',
         confirmpassword: ''
     })
+
     function handleSubmit(e) {
         e.preventDefault()
         let data = {
@@ -71,10 +69,8 @@ const SignUp = ({ history }) => {
         <div className='container'>
             <div className='row justify-content-center'>
                 <div className='col-md-5 col-sm-8 justify-content-center border rounded mt-md-5 mt-0 mb-md-5 p-5'>
-                    <h3 className='text-center mt-3 mb-3'>Create an Account</h3>
-                   
-                    <form onSubmit={handleSubmit} method="POST">
-                        
+                    <h3 className='text-center mt-3 mb-3'>Create an Account</h3>                   
+                    <form onSubmit={handleSubmit} method="POST">                        
                         <div className='form-group' >
                             <label>User Name:</label>
                             <input

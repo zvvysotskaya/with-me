@@ -4,12 +4,13 @@ import CardAllPosts from '../../components/card-all-posts/card-all-posts.compone
 
 
 const AllPostsPage = () => {
+
     const [val, setVal] = useState([])
     useEffect(() => {
         fetch('/allPosts')
             .then(res => res.json())
             .then(res => setVal(res))
-        .catch(err=>console.log(err))
+            .catch(err => console.log(err))
     }, [])
 
     return (

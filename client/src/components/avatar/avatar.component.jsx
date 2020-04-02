@@ -12,6 +12,7 @@ const Avatar = () => {
             .then(message => console.log(message))
             .catch(err => (console.log(err)))
     }, [])
+
     return (
         <div>
             <div>

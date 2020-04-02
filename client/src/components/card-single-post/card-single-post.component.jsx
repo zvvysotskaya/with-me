@@ -9,13 +9,16 @@ import CardDisplayComments from '../card-display-comments/card-display-comments.
 const md5 = require('md5');
 
 const CardSinglePost = ({ post, singlePostID, commentsNum }) => {
+
     const[val,setVal]=useState('')
     function btnClick() {
         setVal(<AddCommentsForm post={post._id} hideTextArea={hideTextArea} />)
     }
+
     function hideTextArea() {
         setVal('')
     }
+
     //find loggedin the user to create a commenter id
     const [commenterId, setCommenterId] = useState('')
     useEffect(() => {
@@ -24,10 +27,12 @@ const CardSinglePost = ({ post, singlePostID, commentsNum }) => {
             .then(res => setCommenterId(res))
             .catch(er => console.log(er))
     }, [])
+
     //check if a user is loggedin
     const [mess, setMess] = useState({
         msg: ''
     })
+
     useEffect(() => {
         fetch('/bbb')
             .then(res => res.text())            
@@ -46,6 +51,7 @@ const CardSinglePost = ({ post, singlePostID, commentsNum }) => {
             return (<ButtonAddComments post={post._id} btnClick={btnClick} />)
         }
     }
+
     //get all comments
     const [valComments, setValComments] = useState([])
     useEffect(() => {
@@ -56,8 +62,8 @@ const CardSinglePost = ({ post, singlePostID, commentsNum }) => {
     }, [])
 
     let filteredBySinglePost = valComments.filter(el => singlePostID === el.postId)
-
     commentsNum = filteredBySinglePost.length
+
     return (<div className='container'>
         <div className="card">
             <div className="card-header">
@@ -84,7 +90,6 @@ const CardSinglePost = ({ post, singlePostID, commentsNum }) => {
                                     {val}
                                 </div>
                                 <h3 className='py-1'>Comments</h3>
-
                                 {filteredBySinglePost.map(comments => < CardDisplayComments key={comments._id} comments={comments} />)}
                             </div>
                         </div>

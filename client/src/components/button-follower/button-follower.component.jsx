@@ -12,4 +12,4 @@ const ButtonFollower = ({ posts, arrLength }) => {
         </div>
     )
 }
-export default ButtonFollower
+export default ButtonFollower;

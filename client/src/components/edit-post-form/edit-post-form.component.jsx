@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import CustomButton from '../../components/button-custom/button-custom.component'
+import CustomButton from '../../components/button-custom/button-custom.component';
 
 const EditPostForm = ({ post }) => {
     
@@ -48,6 +48,7 @@ const EditPostForm = ({ post }) => {
                 .catch(err => (console.log(err)))
         }
     }
+
     return (
         <div className='container'>
             <div className='row justify-content-center mt-4'>

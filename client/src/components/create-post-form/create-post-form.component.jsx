@@ -24,6 +24,7 @@ const CreatPostForm = () => {
     const [disabledState, setDisabledState] = useState({
         dis:false
     })
+
     function handleSubmit(e) {
         e.preventDefault()
         if (mess.msg === 'The post is created') {
@@ -44,17 +45,11 @@ const CreatPostForm = () => {
                 body: JSON.stringify(data)
             })
                 .then(res => res.text())
-                .then(message => setMess({ msg: message }))
-                .then(() => {
-                    if (mess.msg === 'The post is created') {
-                     //   setDisabledState({ dis: true })
-                     //   return
-                    }
-                })
-            //    .then(window.location.href='/' )
+                .then(message => setMess({ msg: message }))       
                 .catch(err => (console.log(err)))
         }
     }
+
     return (
         <div className='container'>
             <div className='row justify-content-center'>

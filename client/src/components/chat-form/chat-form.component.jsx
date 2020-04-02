@@ -24,12 +24,14 @@ const ChatForm = () => {
             .then(res => setValUserName({ userName: res }))
             .catch(er => console.log(er))
     }, [])
+
     useEffect(() => {
         fetch('/userem')
             .then((res) => res.text())
             .then(res => setValUserEmail({ userEmail: res }))
             .catch(er => console.log(er))
     }, [])
+
     const [csrfSt, setCsrfSt] = useState('')
     useEffect(() => {
         fetch('/getCSRF')

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ChatHomePage = () => {
-    return (
+const ChatHomePage = () => (
+
         <div>
             <div className="card">
                 <div className="card-header bg-dark text-light text-center">
@@ -15,6 +15,4 @@ const ChatHomePage = () => {
 
         </div>
     )
-
-}
 export default ChatHomePage;

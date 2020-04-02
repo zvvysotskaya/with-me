@@ -1,7 +1,8 @@
-import React from 'react'
-import CardFollowingFollowers from '../card-following-followers/card-following-followers.component'
-import AvatarProfile from '../avatar-profile/avatar-profile.component'
-import CardEmptyFeed from '../card-empty-feed/card-empty-feed.component'
+import React from 'react';
+
+import CardFollowingFollowers from '../card-following-followers/card-following-followers.component';
+import AvatarProfile from '../avatar-profile/avatar-profile.component';
+import CardEmptyFeed from '../card-empty-feed/card-empty-feed.component';
 
 const CardOfCardsFollowing = ({ filtered, allFollowing }) => {
 
@@ -52,4 +53,4 @@ const CardOfCardsFollowing = ({ filtered, allFollowing }) => {
         </div>
     )
 }
-export default CardOfCardsFollowing
+export default CardOfCardsFollowing;

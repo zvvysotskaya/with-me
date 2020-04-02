@@ -13,11 +13,6 @@ const LoginPage = ({ history }) => {
     const [mess, setMess] = useState({
         message: ''
     })
-    function redir() {
-        if (mess.message === 'Congrats!') {
-            window.location ='/home-dashboard'
-        } 
-    }
 
     const [csrfSt, setCsrfSt] = useState('')
     useEffect(() => {
@@ -48,20 +43,21 @@ const LoginPage = ({ history }) => {
                 .catch(err => (console.log(err)))
             }
     }
+
     useEffect(() => {
         reset()
         return () => reset()
     }, [])
+
     function reset() {
         setVal({
             email: '',
             password: ''
         })
     }
-  //  console.log('CSRF****: ' + csrfSt)
+  
       return (
-        <div>
-            
+        <div>            
             <div className='container'>
                 <div className='row justify-content-center'>
                     <div className='col-md-5 col-sm-8 justify-content-center border rounded mt-md-5 mt-0 mb-md-5 p-5'>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
-import ButtonCustom from '../button-custom/button-custom.component'
+import ButtonCustom from '../button-custom/button-custom.component';
 
 const ButtonDeleteFollow = ({ posts }) => {
 
@@ -23,8 +22,9 @@ const ButtonDeleteFollow = ({ posts }) => {
             return
         }
         handleDelete(e)
-        return (e) => handleDelete(e)
-    },[])
+        return () => handleDelete(e)
+    }, [])
+
     function handleDelete(e) {
         e.preventDefault()
         let userInput = window.confirm(`Are you sure you want to delete ${posts.author.username} ?`)

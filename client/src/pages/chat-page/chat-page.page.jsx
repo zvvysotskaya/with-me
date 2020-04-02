@@ -1,14 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import './chat-page.styles.css'
-import ButtonChatClose from '../../components/button-chat-close/button-chat-close.component'
-import ChatForm from '../../components/chat-form/chat-form.component'
-import ChatDisplayMessageFromServer from '../../components/chat-display-message-from-server/chat-display-message-from-server.component'
+import './chat-page.styles.css';
+import ButtonChatClose from '../../components/button-chat-close/button-chat-close.component';
+import ChatForm from '../../components/chat-form/chat-form.component';
+import ChatDisplayMessageFromServer from '../../components/chat-display-message-from-server/chat-display-message-from-server.component';
 
-const ChatPage = ({ rem, data, username, useremail }) => {
-
-   
-    return (
+const ChatPage = ({ rem, data, username, useremail }) => (
         <div className='chat_page'>
             <div className="chat_card_head">
                 <div className='d-flex px-3 justify-content-between'>
@@ -24,5 +21,4 @@ const ChatPage = ({ rem, data, username, useremail }) => {
             </div>
         </div>
     )
-}
-export default ChatPage
+export default ChatPage;
