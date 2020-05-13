@@ -1,14 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\client",
-    "\\client\\src",
-    "\\client\\src\\components",
-    "\\client\\src\\components\\chat-form",
-    "\\client\\src\\pages",
-    "\\client\\src\\pages\\sign-up",
     "\\node-controllers"
   ],
-  "SelectedNode": "\\node-controllers\\userController.js",
+  "SelectedNode": "\\node-controllers\\postController.js",
   "PreviewInSolutionExplorer": false
 }
