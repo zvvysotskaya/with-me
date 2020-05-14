@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## **Introduction**
 
-With-me is a blog app. Learn javascript full stack from scratch Udemy course was inspired choice for the app, thanks Brad for the course. React frontend and Node.js/Exspress backend are used in process of creating the app.
+With-me is a bloggging app. Learning javascript full stack from scratch Udemy course was an inspired choice for the app, thanks Brad for the course. React frontend and Node.js/Exspress backend are used in process of creating the app.
 Frontend: React jsx, Bootstrap, HTML5, CSS3
 Backend: Node.js/Express
 
